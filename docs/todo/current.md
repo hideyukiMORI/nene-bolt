@@ -17,7 +17,7 @@
 | Phase 3-4b セリフ（1 人 50 本）と COMMS | ✅ 2026-10-27（Issue #9・ADR 0009） |
 | Phase 3-5 面ごとの色・背景・演出・大きな端末の配置 | ✅ 2026-10-27（Issue #11・ADR 0010） |
 | Phase 4 公開の経路（make release・install.sh・install.ps1・README） | ✅ 2026-10-27（Issue #13・ADR 0011） |
-| Phase 4 Release の公開 | ⏸ 施主の確認待ち（Q8） |
+| Phase 4 Release の公開 | ✅ 2026-10-27 v0.1.0（ベータ・Q14・commit 20ebd32・SHA-256 f1da40a6…f2d6） |
 
 ## 動くもの
 
@@ -33,5 +33,5 @@
 
 ## 次の 1 手
 
-施主の確認待ち: (1) Release v0.1.0 を公開してよいか（Q8・Swarm はベータとして公開した）、(2) Windows Terminal で遊んでもらい、`KEYS PRESS/RELEASE` と見え方を確かめる（Phase 3-3・画面写真）。
-GO が出たら、clean な `main` から `make release TAG=v0.1.0` で作り直し、Release に配布物と `SHA256SUMS` を載せ、再ダウンロードして照合する（ADR 0011）。
+施主に Windows Terminal で遊んでもらい（`install.sh` の 1 行で入る）、`KEYS PRESS/RELEASE` か `KEYS REPEAT` か・見え方・ちらつきを確かめる（Phase 3-3）。
+実機の画面写真を README の先頭に置く。

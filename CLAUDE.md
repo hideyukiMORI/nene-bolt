@@ -176,6 +176,6 @@ Waivers: none | WVR-NNNN
 
 - 動くもの: `make check`（smoke を含む・Engine の単調性のテストで約 5 分）・`nene-bolt`（キャスト 4 名のランナーが TITLE → PLAY → GAME OVER / ENDING を 80 × 24 で遊び続け、
   NORMAL で平均約 4 分 24 秒・遊びのキーで人が割り込み 30 秒で AI に戻る・横に流れる面をカメラで映す・Windows Terminal の押す・離すの方式と簡易な方式・COMMS にセリフ 1 人 50 本・面ごとの色と背景と演出・100 × 26 以上の広い配置・ADR 0005〜0010）
-- 公開の経路: `make release TAG=v<版>`・`install.sh`・`install.ps1`（ADR 0011）。**Release はまだ作っていない（施主の確認待ち・Q8）**
+- 公開: v0.1.0（ベータ・2026-10-27・Q14）。`install.sh` の 1 行で入る（ADR 0011）
 - 動かないもの: Windows Terminal の実機での確認と README の画面写真（Phase 3-3）
 - 施主の決定は [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) にそろっている。決定を覆したくなった点や、要件に無い機能を足したくなった点は、自分で決めずに施主に聞く

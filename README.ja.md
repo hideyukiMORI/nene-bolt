@@ -7,6 +7,7 @@
 **遊びのキーを押した瞬間から、あなたが操作できます。** 30 秒何も押さなければ AI に戻ります。
 4 名のランナーが交代で走り、それぞれの口調でぼやき、軽口をたたき、勝ち誇ります。
 
+[![release](https://img.shields.io/github/v/release/hideyukiMORI/nene-bolt)](https://github.com/hideyukiMORI/nene-bolt/releases/latest)
 ![platform](https://img.shields.io/badge/platform-Linux%20x86__64%20%2F%20WSL2-555)
 ![license](https://img.shields.io/badge/license-MIT-555)
 
@@ -15,13 +16,13 @@
 兄弟に [NeNe Gambit](https://github.com/hideyukiMORI/nene-gambit)（チェス）、[NeNe Reversi](https://github.com/hideyukiMORI/nene-reversi)、
 [NeNe Igo](https://github.com/hideyukiMORI/nene-igo)（囲碁）、[NeNe Poker](https://github.com/hideyukiMORI/nene-poker)、[NeNe Swarm](https://github.com/hideyukiMORI/nene-swarm)（固定画面のシューティング）があります。
 
-🚧 **まだ公開していません。** 以下はソースからビルドして動くものです。Windows Terminal での目視の確認はまだで、画面写真は後から載せます。
+🧪 **ベータです。** [v0.1.0](https://github.com/hideyukiMORI/nene-bolt/releases/tag/v0.1.0) をベータとして公開しました。Windows Terminal での目視の確認はまだで、画面写真は後から載せます。
 
 ---
 
 ## 入れ方
 
-公開したら、次の 1 行で入ります。
+次の 1 行で入ります。
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/hideyukiMORI/nene-bolt/main/install.sh | bash
@@ -43,7 +44,7 @@ irm https://raw.githubusercontent.com/hideyukiMORI/nene-bolt/main/install.ps1 | 
 既定の WSL の中で同じインストーラを動かし、`%LOCALAPPDATA%\nene-bolt\bin` に小さな `nene-bolt.cmd` を置いて、そのフォルダをユーザーの PATH に足します。
 別の WSL を使うときは `NENE_BOLT_DISTRO` を指定してください。
 
-公開までは、clone して `swift build -c release && .build/release/nene-bolt` で動かせます（Swift 6.4.1）。
+clone して `swift build -c release && .build/release/nene-bolt` でも動かせます（Swift 6.4.1）。
 
 ## 見かたと遊びかた
 
