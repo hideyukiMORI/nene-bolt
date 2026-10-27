@@ -26,3 +26,4 @@ ADR は「なぜそう決めたか」「何を却下したか」を書く。
 | [0008](0008-runners-cast-and-game-length.md) | ランナーは道のりの地図と Core の 1 刻み関数の 2 段の先読みで動き、キャスト 4 名の性格で長さと遊び方を散らす | 受理 |
 | [0009](0009-runner-lines-and-comms.md) | キャスト 4 名に 1 人 50 本のセリフを持たせ、80 × 24 では面の窓を 17 段にして COMMS の 1 行を置く | 受理 |
 | [0010](0010-stage-colors-backdrop-effects-and-large-layout.md) | 面ごとの地形の色をテーマから作り、背景の 2 層と演出は Render の側で描き、100 × 26 以上では窓を広げる | 受理 |
+| [0011](0011-release-pipeline.md) | 版の入力は Version.swift の 1 か所、配布物は静的リンクの 1 経路で作り、検査してから梱包する | 受理 |
