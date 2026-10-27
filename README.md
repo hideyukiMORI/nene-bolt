@@ -8,9 +8,10 @@ Written in Swift for Ubuntu on WSL2 and Windows Terminal. The game, the collisio
 It is a sibling of [NeNe Gambit](https://github.com/hideyukiMORI/nene-gambit) (chess), [NeNe Reversi](https://github.com/hideyukiMORI/nene-reversi),
 [NeNe Igo](https://github.com/hideyukiMORI/nene-igo) (Go), [NeNe Poker](https://github.com/hideyukiMORI/nene-poker) and [NeNe Swarm](https://github.com/hideyukiMORI/nene-swarm) (a fixed shooter).
 
-🚧 **Nothing runs yet.** The rules and the gate are being put in place before any product code is written (Issue #1).
-The first product code will be the game itself, stepped one tick at a time with no screen, and nothing is drawn until the invariant tests
-(determinism, never sinking into the ground, never falling through a floor, vanishing blocks on time, every game ending) are green.
+🚧 **Nothing is drawn yet.** The game itself is written and tested with no screen: four stages drawn as character maps, running, jumping,
+shooting, charged shots, stomping, ladders, ice, conveyors, moving platforms, vanishing blocks on a fixed rhythm, and the boss fight to the ending.
+600 games played to the end from each of the four stages keep every invariant (determinism, never sinking into the ground,
+never falling through a floor, score and life counts, every game ending). The screen, the human controls and the real runners come next.
 
 ## Development
 

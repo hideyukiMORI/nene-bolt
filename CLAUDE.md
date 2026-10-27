@@ -174,6 +174,6 @@ Waivers: none | WVR-NNNN
 
 現在のタスクは [docs/todo/current.md](docs/todo/current.md)。GitHub Issue が正で、そこは要約。
 
-- 動くもの: `make check`（target は 0 本・製品コードは無い）
-- 動かないもの: 製品そのもの。Phase 3 の最初は「ゲームの進行と当たり判定（Core だけ・画面なし）」で、REQUIREMENTS 第 3 節の不変条件のテストが全部緑になるまで画面に入らない
+- 動くもの: `make check`（Core のゲームの進行と当たり判定・4 面の地図・不変条件のテスト 600 ゲーム・ADR 0005 / 0006）
+- 動かないもの: 画面・人の操作・ランナー。Phase 3-2 でテスト用の単純なランナーのまま端末に描いて人の操作を入れ、Phase 3-4 で本物のランナーとキャストを入れる
 - 施主の決定は [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) にそろっている。決定を覆したくなった点や、要件に無い機能を足したくなった点は、自分で決めずに施主に聞く
