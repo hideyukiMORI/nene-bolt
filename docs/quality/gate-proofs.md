@@ -1,6 +1,6 @@
 # ゲート発火の証明 — NeNe Bolt
 
-> Status: 記録 / 最終実測 2026-10-27（61 件すべて pass・GitHub 側 2 件・`python3 eng/prove-gates.py`・結果の正本は [gate-proofs.json](gate-proofs.json)）
+> Status: 記録 / 最終実測 2026-10-27（65 件すべて pass・GitHub 側 2 件・`python3 eng/prove-gates.py`・結果の正本は [gate-proofs.json](gate-proofs.json)）
 > 根拠となる規則: QLT-007（カスタムゲートには negative proof が要る）
 
 **検査は「落ちること」を見るまで信用しない。** 各ゲートについて、最小の違反を仕込んだ状態で
@@ -57,14 +57,15 @@ CI: GitHub Actions `ubuntu-22.04` / Swift 6.4.1（固定の tarball・`eng/insta
 | QLT-005 | P35: CI に make check 以外の run（swift build）を足す | `make check` | P35: exit 2・`CNF-018 .github/workflows/ci.yml:30: CI で許す run はツールチェーン導入とゲートの 1 行だけ: swift build` |
 | QLT-006 | P02: Terminal が正本に無い Core への依存を宣言する（循環は作らない）<br>P03: Core が Foundation を import する<br>P63: Terminal が宣言していない推移的な依存の Core を import する（SwiftPM は拒まない・M6-e） | `make check` | P02: exit 2・`CNF-010 Package.swift:26: target NeNeBoltTerminal の依存が正本と違う（余分: NeNeBoltCore / 不足: なし）`<br>P03: exit 2・`CNF-011 Sources/NeNeBoltCore/Probe.swift:1: NeNeBoltCore は Foundation を import できない`<br>P63: exit 2・`CNF-011 Sources/NeNeBoltTerminal/Console.swift:2: NeNeBoltTerminal は NeNeBoltCore を import できない` |
 | QLT-007 | P29: SourceKit が要る規則（statement_position）を有効にする（静的バイナリが黙って飛ばす）<br>P38: 規約検査の CNF-013 の検出を壊す（検査器の単体テストが落ちること）<br>P65: 規約検査の CNF-013 の選択肢ごとの判定を壊す（検査器の単体テストが落ちること） | `make check` | P29: exit 2・`lint: 有効にした規則が実行されていない（CNF-007）`<br>P38: exit 2・`FAILED (failures=1)`<br>P65: exit 2・`FAILED (failures=8)` |
-| QLT-011 | P33: 許可リストに無い外部パッケージを manifest に書く（解決に行かせないため狭い検査で）<br>P34: SwiftLint の lock の SHA-256 を 1 文字変え、道具を入れ直させる | `make conformance`<br>`make tools` | P33: exit 2・`CNF-009 Package.swift:11: 許可リストに無い外部パッケージ`<br>P34: exit 2・`/tmp/tmp.Cjcxmk3wmP/swiftlint_linux_amd64.zip: FAILED` |
+| QLT-011 | P33: 許可リストに無い外部パッケージを manifest に書く（解決に行かせないため狭い検査で）<br>P34: SwiftLint の lock の SHA-256 を 1 文字変え、道具を入れ直させる | `make conformance`<br>`make tools` | P33: exit 2・`CNF-009 Package.swift:11: 許可リストに無い外部パッケージ`<br>P34: exit 2・`/tmp/tmp.Yk7vyhQ6rR/swiftlint_linux_amd64.zip: FAILED` |
 | QLT-012 | P45: CI のジョブに draft を飛ばす if: を書く（スキップは成功として数えられる）<br>P46: draft の PR に push する（CI のジョブはスキップでなく失敗し、PR はマージできない） | GitHub Actions run 40457096723（PR #2・head 005cbba・2026-10-27T05:45Z）<br>`make check` | P45: exit 2・`CNF-018 .github/workflows/ci.yml:16: if: は使えない（スキップされた必須 check は成功として数えられる）`<br>P46: step `eng/ci-require-ready.sh true` が `ci: PR が draft なのでフルゲートを回さない。Ready にすると回る（QLT-012）` で exit 1。必須 check `check` は FAILURE・`mergeStateStatus` は `BLOCKED` |
+| QLT-014 | P51: 公開スクリプトに版と違うタグを渡す<br>P52: 公開スクリプトから --static-swift-stdlib を外す（Swift のランタイムに動的に依存する実行ファイルになる）<br>P53: 公開スクリプトの同梱物に余計なファイルを 1 つ足す<br>P54: --version の出力を版の入力と違う値にする | `eng/package-release.sh v9.9.9`<br>`eng/package-release.sh` | P51: exit 1・`package-release: タグ v9.9.9 が版 v0.1.0 と違う`<br>P52: exit 1・`package-release: 宣言していない動的依存: libswiftCore.so`<br>P53: exit 1・`package-release: 同梱物が固定の 3 つと違う: ./LICENSE ./README.txt ./nene-bolt ./notes.txt`<br>P54: exit 1・`package-release: --version が 'nene-bolt 0.0.0'（版は 0.1.0）` |
 | CNF-001 | P15: 型を BoardHelper と名付ける | `make check` | P15: exit 2・`CNF-001 Sources/NeNeBoltCore/BoardHelper.swift:2: 総称名の型 BoardHelper` |
 | CNF-002 | P16: 1 ファイルに最上位の型を 2 つ置く | `make check` | P16: exit 2・`CNF-002 Sources/NeNeBoltCore/Probe.swift:5: 主要宣言が 2 個ある: Probe, Other` |
 | CNF-003 | P19: waiver 無しの swiftlint:disable:next で強制アンラップを抑制する<br>P20: @diagnose で非推奨の警告を消す | `make check` | P19: exit 2・`CNF-003 Sources/nene-bolt/main.swift:54: 直前行に有効な // Waiver: WVR-NNNN が無い`<br>P20: exit 2・`CNF-003 Sources/NeNeBoltCore/Probe.swift:3: @available(..., deprecated) は非推奨の警告を隠す` |
 | CNF-004 | P21: 期限切れの active な waiver を台帳と索引に置く | `make check` | P21: exit 2・`CNF-004 docs/waivers/WVR-0001:1: 期限切れの waiver（2026-10-24）` |
 | CNF-005 | P25: 名前に baseline を含むファイルを置く<br>P26: .gitignore で Sources を検査から隠す<br>P61: .swift-format の rules で規則を 1 つ切る（リポジトリ全体の抑制になる・M8-j） | `make check` | P25: exit 2・`CNF-005 swiftlint-baseline.json:1: 名前に baseline を含むファイル`<br>P26: exit 2・`CNF-005 .gitignore:2: 検査の対象から外れる無視の指定 'Sources/NeNeBoltCore/Hidden.swift'（生成物の置き場だけを無視する）`<br>P61: exit 2・`CNF-005 .swift-format:1: swift-format の設定 rules は使えない（規則の無効化はリポジトリ全体の抑制になる・M8-j）` |
-| CNF-006 | P30: 未定義の規則 ID を文書に書く<br>P31: 証明行の無い規則をマトリクスで active にする（本文も合わせて書き換える）<br>P66: active の規則の証明行の実測を空にする（空の行は証明ではない） | `make check` | P30: exit 2・`CNF-006 docs/todo/current.md:33: 未定義の規則 ID ARC-0 99（仕込んだ未定義の ID。この文書自身が落ちないよう空白を入れて写した）`<br>P31: exit 2・`CNF-006 docs/QUALITY_GATES.md:1: active の QLT-008 に gate-proofs の証明行（｜ QLT-008 ｜）が無い`<br>P66: exit 2・`CNF-006 docs/quality/gate-proofs.md:1: active の CNF-015 の証明行に実測が書かれていない（空の行は証明ではない）` |
+| CNF-006 | P30: 未定義の規則 ID を文書に書く<br>P31: 証明行の無い規則をマトリクスで active にする（本文も合わせて書き換える）<br>P66: active の規則の証明行の実測を空にする（空の行は証明ではない） | `make check` | P30: exit 2・`CNF-006 docs/todo/current.md:34: 未定義の規則 ID ARC-0 99（仕込んだ未定義の ID。この文書自身が落ちないよう空白を入れて写した）`<br>P31: exit 2・`CNF-006 docs/QUALITY_GATES.md:1: active の QLT-008 に gate-proofs の証明行（｜ QLT-008 ｜）が無い`<br>P66: exit 2・`CNF-006 docs/quality/gate-proofs.md:1: active の CNF-015 の証明行に実測が書かれていない（空の行は証明ではない）` |
 | CNF-007 | P28: Core のディレクトリに入れ子の .swiftlint.yml を置く<br>P29: SourceKit が要る規則（statement_position）を有効にする（静的バイナリが黙って飛ばす） | `make check` | P28: exit 2・`CNF-007 Sources/NeNeBoltCore/.swiftlint.yml:1: ゲートが読まない場所の検査設定（入れ子の設定は道具が勝手に拾う）`<br>P29: exit 2・`lint: 有効にした規則が実行されていない（CNF-007）` |
 | CNF-008 | P32: Issue 番号の無い作業メモ（TODO）を書く | `make check` | P32: exit 2・`CNF-008 Sources/NeNeBoltCore/Point.swift:1: TODO / FIXME の直後に (#Issue番号) が無い` |
 | CNF-009 | P23: target の警告設定を treatAllWarnings(as: .warning) に緩める（警告の出るコードは置かない。設定そのものを拒むこと）<br>P33: 許可リストに無い外部パッケージを manifest に書く（解決に行かせないため狭い検査で） | `make check`<br>`make conformance` | P23: exit 2・`CNF-009 Package.swift:12: target NeNeBoltCore に .treatAllWarnings(as: .error) が無い`<br>P33: exit 2・`CNF-009 Package.swift:11: 許可リストに無い外部パッケージ` |
@@ -82,7 +83,7 @@ CI: GitHub Actions `ubuntu-22.04` / Swift 6.4.1（固定の tarball・`eng/insta
 | CNF-021 | P58: 別ファイルの extension に init を足し、private init を経ずに Point を作る（M4-f） | `make check` | P58: exit 2・`CNF-021 Sources/NeNeBoltCore/Point+Bypass.swift:3: extension に init を書かない（型の本体の唯一のファクトリを迂回できる）` |
 | CNF-022 | P59: Core に async の関数を書く | `make check` | P59: exit 2・`CNF-022 Sources/NeNeBoltCore/Probe.swift:4: async / await / Task / actor / Thread / Dispatch は使えない（並行の形は合成ルートの 1 本のループだけ` |
 | CNF-023 | P62: README に登録商標のゲーム名を書く | `make check` | P62: exit 2・`CNF-023 README.md:3: 登録商標のゲーム名・キャラクター名・面の名前・会社名は書かない（横スクロールのアクション＝side-scrolling platformer と書く）` |
-| GIT-003 | P41: 形の合わないコミット（--no-verify でフックを迂回）<br>P42: 形の合わないコミットをフック付きで作ろうとする（フックが拒む） | `git -c user.name=proof -c user.email=proof@example.invalid commit --allow-empty -m update stuff`<br>`make check` | P41: exit 2・`GIT-003 976d4cd: 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci`<br>P42: exit 1・`GIT-003 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci / chore）` |
+| GIT-003 | P41: 形の合わないコミット（--no-verify でフックを迂回）<br>P42: 形の合わないコミットをフック付きで作ろうとする（フックが拒む） | `git -c user.name=proof -c user.email=proof@example.invalid commit --allow-empty -m update stuff`<br>`make check` | P41: exit 2・`GIT-003 dfb4d9b: 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci`<br>P42: exit 1・`GIT-003 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci / chore）` |
 | GIT-004 | P43: ruleset が `main` に効いていることを読み戻し、必須 check の失敗した PR がマージできないことを見る（`main` への直接 push と force push の試行は、公開リポジトリの `main` を壊しうるので行っていない） | `gh api repos/hideyukiMORI/nene-bolt/rules/branches/main`・`gh pr view 2`（2026-10-27） | P43: `main` に効く規則は ruleset 25935437 の `deletion`・`non_fast_forward`・`pull_request`（squash のみ）・`required_status_checks`（`check`）の 4 つ。PR #2 の head 005cbba は必須 check `check` が FAILURE で `mergeStateStatus` が `BLOCKED` |
 <!-- proofs:active:end -->
 
@@ -137,6 +138,10 @@ CI: GitHub Actions `ubuntu-22.04` / Swift 6.4.1（固定の tarball・`eng/insta
 | P35 | QLT-001, CNF-018, QLT-005 | CI に make check 以外の run（swift build）を足す | `make check` | exit 2 | pass |
 | P36 | CNF-018 | CI のアクションをタグで指す | `make check` | exit 2 | pass |
 | P45 | QLT-012, CNF-018 | CI のジョブに draft を飛ばす if: を書く（スキップは成功として数えられる） | `make check` | exit 2 | pass |
+| P51 | QLT-014 | 公開スクリプトに版と違うタグを渡す | `eng/package-release.sh v9.9.9` | exit 1 | pass |
+| P52 | QLT-014 | 公開スクリプトから --static-swift-stdlib を外す（Swift のランタイムに動的に依存する実行ファイルになる） | `eng/package-release.sh` | exit 1 | pass |
+| P53 | QLT-014 | 公開スクリプトの同梱物に余計なファイルを 1 つ足す | `eng/package-release.sh` | exit 1 | pass |
+| P54 | QLT-014 | --version の出力を版の入力と違う値にする | `eng/package-release.sh` | exit 1 | pass |
 | P37 | QLT-001 | .swift-version を実際の版と違う 6.4.0 にする | `make check` | exit 2 | pass |
 | P38 | QLT-007 | 規約検査の CNF-013 の検出を壊す（検査器の単体テストが落ちること） | `make check` | exit 2 | pass |
 | P39 | CNF-015 | Decodable を使う | `make check` | exit 2 | pass |

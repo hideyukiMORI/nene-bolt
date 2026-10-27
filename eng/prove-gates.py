@@ -9,7 +9,7 @@ exit 0 になることも確かめる。作業木そのものには触れない�
 
 移植元: Issue #1・#3 は NeNe Swarm eng/prove-gates.py（コミット 14f3283 の足場の方式）。Issue #5 で全 target がそろったので、
 足場をやめた Swarm の形（コミット a660f47）に移した。証明の番号と意味は Swarm と同じ（ADR 0003）。
-公開の証明（P51〜P54）は公開の段（Phase 4）で足す。CNF-023 の証明 P62 の語と、P04・P48・P49 の仕込み先はこのリポジトリのソースに合わせた。
+公開の証明（P51〜P54）は Phase 4（Issue #13）で Swarm から足した。CNF-023 の証明 P62 の語と、P04・P48・P49 の仕込み先はこのリポジトリのソースに合わせた。
 
     python3 eng/prove-gates.py [--only P01 P02 ...]
 """
@@ -261,6 +261,17 @@ PROOFS: list[Proof] = [
     Proof("P45", ["QLT-012", "CNF-018"], "CI のジョブに draft を飛ばす if: を書く（スキップは成功として数えられる）",
           lambda r: edit(r, ".github/workflows/ci.yml", "    runs-on:", "    if: ${{ !github.event.pull_request.draft }}\n    runs-on:"),
           r"^CNF-018 \.github/workflows/ci\.yml:\d+: if: は使えない"),
+    Proof("P51", ["QLT-014"], "公開スクリプトに版と違うタグを渡す",
+          nothing, r"package-release: タグ v9\.9\.9 が版 v[0-9.]+ と違う", command=["eng/package-release.sh", "v9.9.9"]),
+    Proof("P52", ["QLT-014"], "公開スクリプトから --static-swift-stdlib を外す（Swift のランタイムに動的に依存する実行ファイルになる）",
+          lambda r: edit(r, "eng/package-release.sh", " --static-swift-stdlib", ""),
+          r"package-release: 宣言していない動的依存: libswift", command=["eng/package-release.sh"]),
+    Proof("P53", ["QLT-014"], "公開スクリプトの同梱物に余計なファイルを 1 つ足す",
+          lambda r: edit(r, "eng/package-release.sh", 'cp LICENSE "$stage/LICENSE"', 'cp LICENSE "$stage/LICENSE"\ntouch "$stage/notes.txt"'),
+          r"package-release: 同梱物が固定の 3 つと違う", command=["eng/package-release.sh"]),
+    Proof("P54", ["QLT-014"], "--version の出力を版の入力と違う値にする",
+          lambda r: edit(r, "Sources/nene-bolt/main.swift", 'print("nene-bolt \\(Version.current)")', 'print("nene-bolt 0.0.0")'),
+          r"package-release: --version が 'nene-bolt 0\.0\.0'", command=["eng/package-release.sh"]),
     Proof("P37", ["QLT-001"], ".swift-version を実際の版と違う 6.4.0 にする",
           lambda r: write(r, ".swift-version", "6.4.0\n"), r"tools: swift は 6\.4\.0 が要る"),
     Proof("P38", ["QLT-007"], "規約検査の CNF-013 の検出を壊す（検査器の単体テストが落ちること）",

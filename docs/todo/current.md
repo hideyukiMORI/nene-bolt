@@ -16,7 +16,8 @@
 | Phase 3-4 本物のランナー 4 名・1 ゲームの長さ | ✅ 2026-10-27（Issue #7・ADR 0008・NORMAL 平均 4 分 24 秒） |
 | Phase 3-4b セリフ（1 人 50 本）と COMMS | ✅ 2026-10-27（Issue #9・ADR 0009） |
 | Phase 3-5 面ごとの色・背景・演出・大きな端末の配置 | ✅ 2026-10-27（Issue #11・ADR 0010） |
-| Phase 4 公開（install.sh / install.ps1・Release） | 🔲 Release の公開は施主の確認を取る |
+| Phase 4 公開の経路（make release・install.sh・install.ps1・README） | ✅ 2026-10-27（Issue #13・ADR 0011） |
+| Phase 4 Release の公開 | ⏸ 施主の確認待ち（Q8） |
 
 ## 動くもの
 
@@ -32,5 +33,5 @@
 
 ## 次の 1 手
 
-Phase 4（公開の準備）の Issue を立てる。Swarm の公開スクリプト・`install.sh`・`install.ps1`・`--version`・公開の証明（P51〜P54）を移す。
-Release の公開は外に出る操作なので、施主の確認を取ってから（Q8）。施主が戻ったら Windows Terminal で遊んでもらい、`KEYS PRESS/RELEASE` と見え方を確かめる。
+施主の確認待ち: (1) Release v0.1.0 を公開してよいか（Q8・Swarm はベータとして公開した）、(2) Windows Terminal で遊んでもらい、`KEYS PRESS/RELEASE` と見え方を確かめる（Phase 3-3・画面写真）。
+GO が出たら、clean な `main` から `make release TAG=v0.1.0` で作り直し、Release に配布物と `SHA256SUMS` を載せ、再ダウンロードして照合する（ADR 0011）。
