@@ -1,12 +1,12 @@
 {
   "measured_on": "2026-10-27",
-  "head": "705eb67",
+  "head": "501e397",
   "note": "verdict=pass は「意図した規則で落ちた」（対照は exit 0）。作業木の未コミットの変更も複製に含む。",
   "results": [
     {
       "id": "P00",
       "rules": [],
-      "violation": "対照: 足場だけ（違反なし）。合成ルートが時計・乱数・CommandLine・print を使い、Terminal が withUnsafe を使う",
+      "violation": "対照: 作業木そのまま（違反なし）。合成ルートが時計・乱数・CommandLine・getenv を使い、Terminal が withUnsafe と ioctl を使う",
       "command": "make check",
       "exit": 0,
       "expected": "make check: 緑",
@@ -16,35 +16,12 @@
       ],
       "missing": [],
       "tail": [
-        "✔ Test run with 55 tests in 10 suites passed after 0.766 seconds.",
+        "smoke: 失敗 0 件",
         "python3 eng/validate-commit-message.py --range \"origin/main..HEAD\"",
         "commits: 0 件・違反 0 件",
         "make check: 緑",
         "----------------------------------------------------------------------",
-        "Ran 106 tests in 0.338s",
-        "",
-        "OK"
-      ]
-    },
-    {
-      "id": "P00b",
-      "rules": [],
-      "violation": "対照: 足場を置かない作業木そのまま",
-      "command": "make check",
-      "exit": 0,
-      "expected": "make check: 緑",
-      "verdict": "pass",
-      "evidence": [
-        "make check: 緑"
-      ],
-      "missing": [],
-      "tail": [
-        "✔ Test run with 55 tests in 10 suites passed after 0.811 seconds.",
-        "python3 eng/validate-commit-message.py --range \"origin/main..HEAD\"",
-        "commits: 0 件・違反 0 件",
-        "make check: 緑",
-        "----------------------------------------------------------------------",
-        "Ran 106 tests in 0.309s",
+        "Ran 106 tests in 0.313s",
         "",
         "OK"
       ]
@@ -69,7 +46,7 @@
         "2 | ",
         "3 | /// 証明用。",
         "Failed frontend command:",
-        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -emit-module -experimental-skip-non-inlinable-function-bodies-without-types Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift Sources/NeNeBoltCore/Posture.swift Sources/NeNeBoltCore/Probe.swift Sources/NeNeBoltCore/Runner.swift Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift Sources/NeNeBoltCore/Shot.swift Sources/NeNeBoltCore/ShotOwner.swift Sources/NeNeBoltCore/Slide.swift Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Square.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P01-w2njt3t6 -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P01-w2njt3t6 -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -emit-module-doc-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Modules/NeNeBoltCore.swiftdoc -emit-module-source-info-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Modules/NeNeBoltCore.swiftsourceinfo -emit-objc-header-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore-Swift.h -serialize-diagnostics-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore-primary-emit-module.dia -emit-dependencies-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore-primary-emit-module.d -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Modules/NeNeBoltCore.swiftmodule",
+        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -emit-module -experimental-skip-non-inlinable-function-bodies-without-types Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift Sources/NeNeBoltCore/Posture.swift Sources/NeNeBoltCore/Probe.swift Sources/NeNeBoltCore/Runner.swift Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift Sources/NeNeBoltCore/Shot.swift Sources/NeNeBoltCore/ShotOwner.swift Sources/NeNeBoltCore/Slide.swift Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P01-g36loao4 -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P01-g36loao4 -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -emit-module-doc-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Modules/NeNeBoltCore.swiftdoc -emit-module-source-info-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Modules/NeNeBoltCore.swiftsourceinfo -emit-objc-header-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore-Swift.h -serialize-diagnostics-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore-primary-emit-module.dia -emit-dependencies-path .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore-primary-emit-module.d -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Modules/NeNeBoltCore.swiftmodule",
         "[61 / 93] NeNeBoltCore",
         "error: Build failed",
         "make: *** [Makefile:19: build] Error 1"
@@ -88,18 +65,18 @@
       "expected": "^CNF-010 Package\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-010 Package.swift:17: target NeNeBoltTerminal の依存が正本と違う（余分: NeNeBoltCore / 不足: なし）"
+        "CNF-010 Package.swift:26: target NeNeBoltTerminal の依存が正本と違う（余分: NeNeBoltCore / 不足: なし）"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.50 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (5.90 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-010 Package.swift:17: target NeNeBoltTerminal の依存が正本と違う（余分: NeNeBoltCore / 不足: なし）",
+        "CNF-010 Package.swift:26: target NeNeBoltTerminal の依存が正本と違う（余分: NeNeBoltCore / 不足: なし）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -120,14 +97,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (5.80 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.99 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-011 Sources/NeNeBoltCore/Probe.swift:1: NeNeBoltCore は Foundation を import できない",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -139,21 +116,21 @@
       "violation": "Engine が using: の無い Int.random を呼ぶ",
       "command": "make check",
       "exit": 2,
-      "expected": "^CNF-012 Sources/NeNeBoltEngine/Pick\\.swift",
+      "expected": "^CNF-012 Sources/NeNeBoltEngine/Autopilot\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-012 Sources/NeNeBoltEngine/Pick.swift:7: random(...) は using: で乱数源を受け取る"
+        "CNF-012 Sources/NeNeBoltEngine/Autopilot.swift:21: random(...) は using: で乱数源を受け取る"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.28 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.10 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-012 Sources/NeNeBoltEngine/Pick.swift:7: random(...) は using: で乱数源を受け取る",
+        "CNF-012 Sources/NeNeBoltEngine/Autopilot.swift:21: random(...) は using: で乱数源を受け取る",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -172,14 +149,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.53 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.07 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-012 Tests/NeNeBoltCoreTests/ProbeTests.swift:3: 時刻・乱数・環境・プロセス状態は合成ルートだけが読む",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -198,12 +175,12 @@
       ],
       "missing": [],
       "tail": [
-        "   |     |- error: switch must be exhaustive",
         "   |     `- note: add missing case: '.none'",
         "11 |     case .white:",
         "12 |         return 1",
         "Failed frontend command:",
-        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -c Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift Sources/NeNeBoltCore/Posture.swift Sources/NeNeBoltCore/Runner.swift Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift -primary-file Sources/NeNeBoltCore/Shot.swift -primary-file Sources/NeNeBoltCore/ShotOwner.swift -primary-file Sources/NeNeBoltCore/Side.swift Sources/NeNeBoltCore/Slide.swift Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Square.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -supplementary-output-file-map .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/supplementaryOutputs-14 -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P06-dhnwsr15 -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P06-dhnwsr15 -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Shot.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/ShotOwner.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Side.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Shot.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/ShotOwner.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Side.o -index-store-path .build/out -index-system-modules",
+        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -c Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift Sources/NeNeBoltCore/Posture.swift Sources/NeNeBoltCore/Runner.swift Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift Sources/NeNeBoltCore/Shot.swift Sources/NeNeBoltCore/ShotOwner.swift -primary-file Sources/NeNeBoltCore/Side.swift -primary-file Sources/NeNeBoltCore/Slide.swift -primary-file Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -supplementary-output-file-map .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/supplementaryOutputs-15 -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P06-4t962ay_ -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P06-4t962ay_ -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Side.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Slide.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Spawn.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Side.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Slide.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Spawn.o -index-store-path .build/out -index-system-modules",
+        "[76 / 98] NeNeBoltEngine",
         "error: Build failed",
         "make: *** [Makefile:19: build] Error 1"
       ]
@@ -224,14 +201,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.36 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (5.92 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-013 Sources/NeNeBoltCore/Side.swift:15: 全捕捉（default / @unknown default / case _ / case let x / 括弧や並びに隠れた _ と束縛）は網羅性検査を殺す",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -249,14 +226,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.35 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.19 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-013 Sources/NeNeBoltCore/Side.swift:15: 全捕捉（default / @unknown default / case _ / case let x / 括弧や並びに隠れた _ と束縛）は網羅性検査を殺す",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -271,18 +248,18 @@
       "expected": "^CNF-016 Sources/NeNeBoltRender/Cell\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-016 Sources/NeNeBoltRender/Cell.swift:3: public の格納 var は外から変更できる（let か private(set) にする）"
+        "CNF-016 Sources/NeNeBoltRender/Cell.swift:8: public の格納 var は外から変更できる（let か private(set) にする）"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.46 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (5.96 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-016 Sources/NeNeBoltRender/Cell.swift:3: public の格納 var は外から変更できる（let か private(set) にする）",
+        "CNF-016 Sources/NeNeBoltRender/Cell.swift:8: public の格納 var は外から変更できる（let か private(set) にする）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -296,18 +273,18 @@
       "expected": "\\(force_unwrapping\\)",
       "verdict": "pass",
       "evidence": [
-        "Sources/nene-bolt/main.swift:9:13: error: Force Unwrapping Violation: Force unwrapping should be avoided (force_unwrapping)"
+        "Sources/nene-bolt/main.swift:54:85: error: Force Unwrapping Violation: Force unwrapping should be avoided (force_unwrapping)"
       ],
       "missing": [],
       "tail": [
-        "[97 / 108] NeNeBoltCore",
-        "[106 / 109] NeNeBoltTerminal",
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.30 secs)",
+        "[142 / 147] nene-bolt-product",
+        "[145 / 148] NeNeBoltTerminal",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.21 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
-        "Sources/nene-bolt/main.swift:9:13: error: Force Unwrapping Violation: Force unwrapping should be avoided (force_unwrapping)",
-        "make: *** [Makefile:29: lint] Error 2"
+        "Sources/nene-bolt/main.swift:54:85: error: Force Unwrapping Violation: Force unwrapping should be avoided (force_unwrapping)",
+        "make: *** [Makefile:34: lint] Error 2"
       ]
     },
     {
@@ -326,14 +303,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.39 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.08 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-019 Sources/NeNeBoltCore/Probe.swift:4: 期待される失敗は閉じた結果型で返す（throw / try / catch は使えない）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -352,14 +329,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.36 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (5.99 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-020 Sources/NeNeBoltCore/Probe.swift:4: Any / AnyObject / AnyHashable / AnyClass は使えない",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -377,14 +354,14 @@
       ],
       "missing": [],
       "tail": [
-        "[104 / 109] nene-bolt-product",
-        "[106 / 109] NeNeBoltTerminal",
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.28 secs)",
+        "[142 / 147] NeNeBoltTerminal",
+        "[145 / 148] NeNeBoltTerminal",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (5.89 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "Sources/NeNeBoltCore/Probe.swift:4:29: error: Large Tuple Violation: Tuples should have at most 2 members (large_tuple)",
-        "make: *** [Makefile:29: lint] Error 2"
+        "make: *** [Makefile:34: lint] Error 2"
       ]
     },
     {
@@ -403,14 +380,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.28 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.23 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-014 Sources/NeNeBoltCore/Probe.swift:3: unsafe 系の API は unsafe=allowed の target だけ",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -429,14 +406,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.59 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (5.88 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-001 Sources/NeNeBoltCore/BoardHelper.swift:2: 総称名の型 BoardHelper",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -455,14 +432,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.27 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (5.96 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-002 Sources/NeNeBoltCore/Probe.swift:5: 主要宣言が 2 個ある: Probe, Other",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -480,14 +457,14 @@
       ],
       "missing": [],
       "tail": [
-        "[103 / 109] nene-bolt-product",
-        "[106 / 109] NeNeBoltTerminal",
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.31 secs)",
+        "[142 / 147] nene-bolt-product",
+        "[145 / 148] NeNeBoltTerminal",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.07 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "Sources/NeNeBoltCore/Probe.swift:4:12: error: Function Parameter Count Violation: Function should have 4 parameters or less: it currently has 5 (function_parameter_count)",
-        "make: *** [Makefile:29: lint] Error 2"
+        "make: *** [Makefile:34: lint] Error 2"
       ]
     },
     {
@@ -505,14 +482,14 @@
       ],
       "missing": [],
       "tail": [
-        "[104 / 109] nene-bolt-product",
-        "[106 / 109] NeNeBoltTerminal",
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.29 secs)",
+        "[142 / 147] nene-bolt-product",
+        "[145 / 148] NeNeBoltTerminal",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (7.84 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "Sources/NeNeBoltCore/Probe.swift:4:5: error: Cyclomatic Complexity Violation: Function should have complexity 10 or less; currently complexity is 11 (cyclomatic_complexity)",
-        "make: *** [Makefile:29: lint] Error 2"
+        "make: *** [Makefile:34: lint] Error 2"
       ]
     },
     {
@@ -527,18 +504,18 @@
       "expected": "^CNF-003 Sources/nene-bolt/main\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-003 Sources/nene-bolt/main.swift:9: 直前行に有効な // Waiver: WVR-NNNN が無い"
+        "CNF-003 Sources/nene-bolt/main.swift:54: 直前行に有効な // Waiver: WVR-NNNN が無い"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.41 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (7.57 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-003 Sources/nene-bolt/main.swift:9: 直前行に有効な // Waiver: WVR-NNNN が無い",
+        "CNF-003 Sources/nene-bolt/main.swift:54: 直前行に有効な // Waiver: WVR-NNNN が無い",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -558,14 +535,14 @@
       ],
       "missing": [],
       "tail": [
-        "Build complete! (4.32 secs)",
+        "Build complete! (7.97 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-003 Sources/NeNeBoltCore/Probe.swift:3: @available(..., deprecated) は非推奨の警告を隠す",
         "CNF-003 Sources/NeNeBoltCore/Probe.swift:6: @diagnose / @warn による警告の抑制",
         "conformance: 23 規則・違反 2 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -584,14 +561,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.33 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (7.69 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-004 docs/waivers/WVR-0001:1: 期限切れの waiver（2026-10-24）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -610,14 +587,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.25 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (9.59 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-011 Tests/NeNeBoltCoreTests/ProbeTests.swift:1: NeNeBoltCoreTests は XCTest を import できない",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -632,20 +609,20 @@
       "expected": "^CNF-009 Package\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-009 Package.swift:8: target NeNeBoltCore に .treatAllWarnings(as: .error) が無い",
-        "CNF-009 Package.swift:8: target NeNeBoltCore の使えない swiftSettings: .treatAllWarnings(as: .warning)",
-        "CNF-009 Package.swift:10: 使えない manifest の指定: 警告を警告のまま残す指定"
+        "CNF-009 Package.swift:12: target NeNeBoltCore に .treatAllWarnings(as: .error) が無い",
+        "CNF-009 Package.swift:12: target NeNeBoltCore の使えない swiftSettings: .treatAllWarnings(as: .warning)",
+        "CNF-009 Package.swift:14: 使えない manifest の指定: 警告を警告のまま残す指定"
       ],
       "missing": [],
       "tail": [
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-009 Package.swift:8: target NeNeBoltCore に .treatAllWarnings(as: .error) が無い",
-        "CNF-009 Package.swift:8: target NeNeBoltCore の使えない swiftSettings: .treatAllWarnings(as: .warning)",
-        "CNF-009 Package.swift:10: 使えない manifest の指定: 警告を警告のまま残す指定",
+        "CNF-009 Package.swift:12: target NeNeBoltCore に .treatAllWarnings(as: .error) が無い",
+        "CNF-009 Package.swift:12: target NeNeBoltCore の使えない swiftSettings: .treatAllWarnings(as: .warning)",
+        "CNF-009 Package.swift:14: 使えない manifest の指定: 警告を警告のまま残す指定",
         "conformance: 23 規則・違反 3 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -669,7 +646,7 @@
         "",
         "[#NoUsage]: <https://docs.swift.org/compiler/documentation/diagnostics/no-usage>",
         "Failed frontend command:",
-        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -c Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift Sources/NeNeBoltCore/Posture.swift -primary-file Sources/NeNeBoltCore/Probe.swift -primary-file Sources/NeNeBoltCore/Runner.swift -primary-file Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift Sources/NeNeBoltCore/Shot.swift Sources/NeNeBoltCore/ShotOwner.swift Sources/NeNeBoltCore/Slide.swift Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Square.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -supplementary-output-file-map .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/supplementaryOutputs-12 -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P24-u4pc96v6 -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P24-u4pc96v6 -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Scene.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Scene.o -index-store-path .build/out -index-system-modules",
+        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -c Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift -primary-file Sources/NeNeBoltCore/Posture.swift -primary-file Sources/NeNeBoltCore/Probe.swift -primary-file Sources/NeNeBoltCore/Runner.swift Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift Sources/NeNeBoltCore/Shot.swift Sources/NeNeBoltCore/ShotOwner.swift Sources/NeNeBoltCore/Slide.swift Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -supplementary-output-file-map .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/supplementaryOutputs-12 -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P24-6y0vavpi -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P24-6y0vavpi -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Posture.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Posture.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -index-store-path .build/out -index-system-modules",
         "error: Build failed",
         "make: *** [Makefile:19: build] Error 1"
       ]
@@ -690,14 +667,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.44 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.21 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-005 swiftlint-baseline.json:1: 名前に baseline を含むファイル",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -716,14 +693,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.42 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.28 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-005 .gitignore:2: 検査の対象から外れる無視の指定 'Sources/NeNeBoltCore/Hidden.swift'（生成物の置き場だけを無視する）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -737,18 +714,18 @@
       "expected": "\\[Indentation\\]",
       "verdict": "pass",
       "evidence": [
-        "Sources/NeNeBoltRender/Cell.swift:3:1: error: [Indentation] indent by 2 spaces"
+        "Sources/NeNeBoltRender/Cell.swift:8:1: error: [Indentation] indent by 2 spaces"
       ],
       "missing": [],
       "tail": [
-        "[94 / 104] NeNeBoltTerminal",
-        "[100 / 109] nene-bolt-product",
-        "[106 / 109] NeNeBoltTerminal",
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.46 secs)",
+        "[142 / 147] NeNeBoltTerminal",
+        "[142 / 148] nene-bolt-product",
+        "[145 / 148] NeNeBoltTerminal",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.18 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
-        "Sources/NeNeBoltRender/Cell.swift:3:1: error: [Indentation] indent by 2 spaces",
-        "make: *** [Makefile:26: format] Error 123"
+        "Sources/NeNeBoltRender/Cell.swift:8:1: error: [Indentation] indent by 2 spaces",
+        "make: *** [Makefile:31: format] Error 123"
       ]
     },
     {
@@ -767,14 +744,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.34 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.30 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-007 Sources/NeNeBoltCore/.swiftlint.yml:1: ゲートが読まない場所の検査設定（入れ子の設定は道具が勝手に拾う）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -793,14 +770,14 @@
       ],
       "missing": [],
       "tail": [
-        "[106 / 109] NeNeBoltTerminal",
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.30 secs)",
+        "[145 / 148] NeNeBoltTerminal",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.61 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "warning: Skipping enabled rule 'statement_position' because it requires SourceKit and SourceKit access is prohibited.",
         "lint: 有効にした規則が実行されていない（CNF-007）",
-        "make: *** [Makefile:29: lint] Error 1"
+        "make: *** [Makefile:34: lint] Error 1"
       ]
     },
     {
@@ -814,18 +791,18 @@
       "expected": "^CNF-006 docs/todo/current\\.md",
       "verdict": "pass",
       "evidence": [
-        "CNF-006 docs/todo/current.md:28: 未定義の規則 ID ARC-099"
+        "CNF-006 docs/todo/current.md:32: 未定義の規則 ID ARC-099"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.22 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (9.96 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-006 docs/todo/current.md:28: 未定義の規則 ID ARC-099",
+        "CNF-006 docs/todo/current.md:32: 未定義の規則 ID ARC-099",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -843,14 +820,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.23 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.12 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-006 docs/QUALITY_GATES.md:1: active の QLT-008 に gate-proofs の証明行（| QLT-008 |）が無い",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -868,14 +845,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.50 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.36 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-006 docs/quality/gate-proofs.md:1: active の CNF-015 の証明行に実測が書かれていない（空の行は証明ではない）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -886,21 +863,21 @@
       "violation": "Issue 番号の無い作業メモ（TODO）を書く",
       "command": "make check",
       "exit": 2,
-      "expected": "^CNF-008 Sources/NeNeBoltCore/Square\\.swift",
+      "expected": "^CNF-008 Sources/NeNeBoltCore/Point\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-008 Sources/NeNeBoltCore/Square.swift:1: TODO / FIXME の直後に (#Issue番号) が無い"
+        "CNF-008 Sources/NeNeBoltCore/Point.swift:1: TODO / FIXME の直後に (#Issue番号) が無い"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.60 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.47 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-008 Sources/NeNeBoltCore/Square.swift:1: TODO / FIXME の直後に (#Issue番号) が無い",
+        "CNF-008 Sources/NeNeBoltCore/Point.swift:1: TODO / FIXME の直後に (#Issue番号) が無い",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -915,14 +892,14 @@
       "expected": "^CNF-009 Package\\.swift:\\d+: 許可リストに無い外部パッケージ",
       "verdict": "pass",
       "evidence": [
-        "CNF-009 Package.swift:7: 許可リストに無い外部パッケージ"
+        "CNF-009 Package.swift:11: 許可リストに無い外部パッケージ"
       ],
       "missing": [],
       "tail": [
         "python3 eng/conformance.py",
-        "CNF-009 Package.swift:7: 許可リストに無い外部パッケージ",
+        "CNF-009 Package.swift:11: 許可リストに無い外部パッケージ",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -936,13 +913,13 @@
       "expected": "(FAILED|did NOT match)",
       "verdict": "pass",
       "evidence": [
-        "/tmp/tmp.Blm3Z2HAWi/swiftlint_linux_amd64.zip: FAILED",
+        "/tmp/tmp.1AJQ2veMDX/swiftlint_linux_amd64.zip: FAILED",
         "sha256sum: WARNING: 1 computed checksum did NOT match"
       ],
       "missing": [],
       "tail": [
         "eng/install-tools.sh",
-        "/tmp/tmp.Blm3Z2HAWi/swiftlint_linux_amd64.zip: FAILED",
+        "/tmp/tmp.1AJQ2veMDX/swiftlint_linux_amd64.zip: FAILED",
         "sha256sum: WARNING: 1 computed checksum did NOT match",
         "make: *** [Makefile:16: tools] Error 1"
       ]
@@ -964,14 +941,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.32 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.25 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-018 .github/workflows/ci.yml:30: CI で許す run はツールチェーン導入とゲートの 1 行だけ: swift build",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -989,14 +966,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.42 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (10.32 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-018 .github/workflows/ci.yml:19: アクションを commit SHA で固定していない: actions/checkout@v7",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1015,14 +992,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.40 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (12.10 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-018 .github/workflows/ci.yml:16: if: は使えない（スキップされた必須 check は成功として数えられる）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1064,10 +1041,10 @@
         "AssertionError: 'CNF-013' not found in [] : CNF-013 が Sources/Core/Board.swift で発火しない",
         "",
         "----------------------------------------------------------------------",
-        "Ran 106 tests in 0.304s",
+        "Ran 106 tests in 0.528s",
         "",
         "FAILED (failures=1)",
-        "make: *** [Makefile:35: conformance-test] Error 1"
+        "make: *** [Makefile:40: conformance-test] Error 1"
       ]
     },
     {
@@ -1085,14 +1062,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.23 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (11.05 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-015 Sources/NeNeBoltCore/Probe.swift:2: Codable / Decodable / Encodable は使えない",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1111,14 +1088,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.15 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (11.73 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-017 Sources/NeNeBoltCore/Probe.swift:5: print / readLine / exit 等は合成ルートだけ",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1132,18 +1109,18 @@
       "expected": "GIT-003 [0-9a-f]{7}: 件名は",
       "verdict": "pass",
       "evidence": [
-        "GIT-003 2166420: 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci / chore）"
+        "GIT-003 4348cc4: 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci / chore）"
       ],
       "missing": [],
       "tail": [
         "python3 eng/validate-commit-message.py --range \"origin/main..HEAD\"",
         "commits: 1 件・違反 1 件",
         "----------------------------------------------------------------------",
-        "Ran 106 tests in 0.302s",
+        "Ran 106 tests in 0.525s",
         "",
         "OK",
-        "GIT-003 2166420: 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci / chore）",
-        "make: *** [Makefile:38: commits] Error 1"
+        "GIT-003 4348cc4: 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci / chore）",
+        "make: *** [Makefile:43: commits] Error 1"
       ]
     },
     {
@@ -1188,7 +1165,7 @@
         "Sources/NeNeBoltCore/Probe.swift:548:29: error: Large Tuple Violation: Tuples should have at most 2 members (large_tuple)",
         "Sources/NeNeBoltCore/Probe.swift:570:9: error: Nesting Violation: Types should be nested at most 1 level deep (nesting)",
         "Sources/NeNeBoltCore/Probe.swift:2:1: error: Type Body Length Violation: Enum body should span 300 lines or less excluding comments and whitespace: currently spans 550 lines (type_body_length)",
-        "make: *** [Makefile:29: lint] Error 2"
+        "make: *** [Makefile:34: lint] Error 2"
       ]
     },
     {
@@ -1206,14 +1183,39 @@
       ],
       "missing": [],
       "tail": [
-        "[89 / 104] NeNeBoltCore",
-        "[97 / 107] NeNeBoltCore",
-        "[106 / 109] NeNeBoltRender",
-        "[106 / 109] NeNeBoltTerminal",
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.36 secs)",
+        "[141 / 147] nene-bolt-product",
+        "[142 / 147] NeNeBoltTerminal",
+        "[142 / 147] nene-bolt-product",
+        "[145 / 148] NeNeBoltTerminal",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (8.75 secs)",
         "swift-strict: SwiftPM かコンパイラが警告を出した（QLT-002）",
         "make: *** [Makefile:19: build] Error 1"
+      ]
+    },
+    {
+      "id": "P49",
+      "rules": [
+        "QLT-001"
+      ],
+      "violation": "端末を戻す列からカーソル表示と alternate screen の終了を消す（make smoke が実際に端末の復元を見て落ちること）",
+      "command": "make check",
+      "exit": 2,
+      "expected": "smoke: NG  q: 最後に端末を戻す",
+      "verdict": "pass",
+      "evidence": [
+        "smoke: NG  q: 最後に端末を戻す（カーソルを出し alternate screen を抜ける）"
+      ],
+      "missing": [],
+      "tail": [
+        "smoke: ok  間違った起動オプションは exit 2 で理由を 1 行",
+        "smoke: ok  端末の外からは exit 1 で理由を 1 行",
+        "smoke: 失敗 8 件",
+        "----------------------------------------------------------------------",
+        "Ran 106 tests in 0.468s",
+        "",
+        "OK",
+        "make: *** [Makefile:28: smoke] Error 1"
       ]
     },
     {
@@ -1228,15 +1230,15 @@
       "verdict": "pass",
       "evidence": [
         "✘ Test aShotDefeatsAWalkerAndScores() recorded an issue at CombatTests.swift:20:9: Expectation failed: game.score == 101",
-        "✘ Test aShotDefeatsAWalkerAndScores() failed after 0.172 seconds with 1 issue."
+        "✘ Test aShotDefeatsAWalkerAndScores() failed after 0.190 seconds with 1 issue."
       ],
       "missing": [],
       "tail": [
-        "✘ Test run with 55 tests in 10 suites failed after 0.766 seconds with 1 issue.",
+        "✘ Test run with 55 tests in 10 suites failed after 0.841 seconds with 1 issue.",
         "Note: Some test targets reported failures:",
         "  - NeNeBoltCoreTests (Swift Testing)",
         "----------------------------------------------------------------------",
-        "Ran 106 tests in 0.307s",
+        "Ran 106 tests in 0.319s",
         "",
         "OK",
         "make: *** [Makefile:23: test] Error 1"
@@ -1263,7 +1265,7 @@
         " 6 |         case \"a\":",
         " 7 |             return 1",
         "Failed frontend command:",
-        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -c Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift Sources/NeNeBoltCore/Posture.swift -primary-file Sources/NeNeBoltCore/Probe.swift -primary-file Sources/NeNeBoltCore/Runner.swift -primary-file Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift Sources/NeNeBoltCore/Shot.swift Sources/NeNeBoltCore/ShotOwner.swift Sources/NeNeBoltCore/Slide.swift Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Square.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -supplementary-output-file-map .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/supplementaryOutputs-12 -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P50-4y8u0eln -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P50-4y8u0eln -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Scene.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Scene.o -index-store-path .build/out -index-system-modules",
+        "/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-frontend -frontend -c Sources/NeNeBoltCore/Boss.swift Sources/NeNeBoltCore/BossAttack.swift Sources/NeNeBoltCore/BossState.swift Sources/NeNeBoltCore/Box.swift Sources/NeNeBoltCore/Buttons.swift Sources/NeNeBoltCore/DefeatMethod.swift Sources/NeNeBoltCore/Difficulty.swift Sources/NeNeBoltCore/Enemy.swift Sources/NeNeBoltCore/EnemyKind.swift Sources/NeNeBoltCore/EnemyState.swift Sources/NeNeBoltCore/Field.swift Sources/NeNeBoltCore/Game+Advance.swift Sources/NeNeBoltCore/Game+Boss.swift Sources/NeNeBoltCore/Game+Contacts.swift Sources/NeNeBoltCore/Game+Control.swift Sources/NeNeBoltCore/Game+Enemies.swift Sources/NeNeBoltCore/Game+Motion.swift Sources/NeNeBoltCore/Game+Progress.swift Sources/NeNeBoltCore/Game+Shots.swift Sources/NeNeBoltCore/Game+Stages.swift Sources/NeNeBoltCore/Game+Terrain.swift Sources/NeNeBoltCore/Game.swift Sources/NeNeBoltCore/GameEnding.swift Sources/NeNeBoltCore/GameEvent.swift Sources/NeNeBoltCore/GameStatus.swift Sources/NeNeBoltCore/GameStep.swift Sources/NeNeBoltCore/GameSummary.swift Sources/NeNeBoltCore/Heading.swift Sources/NeNeBoltCore/HighScore.swift Sources/NeNeBoltCore/HighScoreCodec.swift Sources/NeNeBoltCore/HighScoreDecodeOutcome.swift Sources/NeNeBoltCore/HighScoreInsertion.swift Sources/NeNeBoltCore/HighScoreRank.swift Sources/NeNeBoltCore/HighScoreRejection.swift Sources/NeNeBoltCore/HighScoreTable.swift Sources/NeNeBoltCore/LossCause.swift Sources/NeNeBoltCore/Pickup.swift Sources/NeNeBoltCore/PickupKind.swift Sources/NeNeBoltCore/Platform.swift Sources/NeNeBoltCore/PlayPhase.swift Sources/NeNeBoltCore/Point.swift -primary-file Sources/NeNeBoltCore/Posture.swift -primary-file Sources/NeNeBoltCore/Probe.swift -primary-file Sources/NeNeBoltCore/Runner.swift Sources/NeNeBoltCore/Scene.swift Sources/NeNeBoltCore/SceneDurations.swift Sources/NeNeBoltCore/Session.swift Sources/NeNeBoltCore/SessionEvent.swift Sources/NeNeBoltCore/SessionStep.swift Sources/NeNeBoltCore/Shot.swift Sources/NeNeBoltCore/ShotOwner.swift Sources/NeNeBoltCore/Slide.swift Sources/NeNeBoltCore/Spawn.swift Sources/NeNeBoltCore/SpawnKind.swift Sources/NeNeBoltCore/Stage.swift Sources/NeNeBoltCore/StageCatalog+Cavern.swift Sources/NeNeBoltCore/StageCatalog+Fortress.swift Sources/NeNeBoltCore/StageCatalog+Grassland.swift Sources/NeNeBoltCore/StageCatalog+Sky.swift Sources/NeNeBoltCore/StageCatalog.swift Sources/NeNeBoltCore/StageKind.swift Sources/NeNeBoltCore/StageMap.swift Sources/NeNeBoltCore/StageMapDecodeOutcome.swift Sources/NeNeBoltCore/StageMapRejection.swift Sources/NeNeBoltCore/Terrain.swift Sources/NeNeBoltCore/Tuning.swift Sources/NeNeBoltCore/VanishingClock.swift Sources/NeNeBoltCore/Velocity.swift -supplementary-output-file-map .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/supplementaryOutputs-12 -target x86_64-unknown-linux-gnu -disable-objc-interop -I .build/out/Products/Debug-linux-x86_64 -module-cache-path .build/out/ModuleCache.noindex -no-color-diagnostics -Xcc -fno-color-diagnostics -enable-testing -g -debug-info-format\\=dwarf -dwarf-version\\=4 -warnings-as-errors -warnings-as-errors -swift-version 6 -Onone -D SWIFT_PACKAGE -D DEBUG -D SWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE -D Xcode -serialize-debugging-options -enable-upcoming-feature ExistentialAny -enable-experimental-feature DebugDescriptionMacro -empty-abi-descriptor -external-plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins/testing\\#/root/.local/share/swiftly/toolchains/6.4.1/usr/bin/swift-plugin-server -validate-clang-modules-once -clang-build-session-file .build/out/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /tmp/bolt-proof-P50-vsle6hyn -enable-anonymous-context-mangled-names -file-compilation-dir /tmp/bolt-proof-P50-vsle6hyn -Xcc -fno-omit-frame-pointer -Xcc -D_LIBCPP_HARDENING_MODE\\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -fmodules-prune-interval\\=86400 -Xcc -fmodules-prune-after\\=345600 -Xcc -I.build/out/Products/Debug-linux-x86_64/include -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources-normal/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources/x86_64 -Xcc -I.build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/DerivedSources -Xcc -DSWIFT_PACKAGE -Xcc -DDEBUG\\=1 -no-auto-bridging-header-chaining -module-name NeNeBoltCore -package-name repo -const-gather-protocols-file .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/NeNeBoltCore_const_extract_protocols.json -in-process-plugin-server-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/libSwiftInProcPluginServer.so -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/lib/swift/host/plugins -plugin-path /root/.local/share/swiftly/toolchains/6.4.1/usr/local/lib/swift/host/plugins -parse-as-library -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Posture.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -o .build/out/Intermediates.noindex/NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Posture.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Probe.o -index-unit-output-path /NeNeBolt.build/Debug-linux-x86_64/NeNeBoltCore-t.build/Objects-normal/x86_64/Runner.o -index-store-path .build/out -index-system-modules",
         "error: Build failed",
         "make: *** [Makefile:19: build] Error 1"
       ]
@@ -1284,14 +1286,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.65 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.28 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-013 Sources/NeNeBoltCore/Side.swift:15: 全捕捉（default / @unknown default / case _ / case let x / 括弧や並びに隠れた _ と束縛）は網羅性検査を殺す",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1310,14 +1312,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.49 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.27 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-013 Sources/NeNeBoltCore/Side.swift:15: 全捕捉（default / @unknown default / case _ / case let x / 括弧や並びに隠れた _ と束縛）は網羅性検査を殺す",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1336,14 +1338,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.37 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.04 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-013 Sources/NeNeBoltCore/Pair.swift:11: 全捕捉（default / @unknown default / case _ / case let x / 括弧や並びに隠れた _ と束縛）は網羅性検査を殺す",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1352,24 +1354,24 @@
         "SWF-007",
         "CNF-021"
       ],
-      "violation": "別ファイルの extension に init を足し、private init を経ずに Square を作る（M4-f）",
+      "violation": "別ファイルの extension に init を足し、private init を経ずに Point を作る（M4-f）",
       "command": "make check",
       "exit": 2,
-      "expected": "^CNF-021 Sources/NeNeBoltCore/Square\\+Bypass\\.swift",
+      "expected": "^CNF-021 Sources/NeNeBoltCore/Point\\+Bypass\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-021 Sources/NeNeBoltCore/Square+Bypass.swift:3: extension に init を書かない（型の本体の唯一のファクトリを迂回できる）"
+        "CNF-021 Sources/NeNeBoltCore/Point+Bypass.swift:3: extension に init を書かない（型の本体の唯一のファクトリを迂回できる）"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.39 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.03 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-021 Sources/NeNeBoltCore/Square+Bypass.swift:3: extension に init を書かない（型の本体の唯一のファクトリを迂回できる）",
+        "CNF-021 Sources/NeNeBoltCore/Point+Bypass.swift:3: extension に init を書かない（型の本体の唯一のファクトリを迂回できる）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1388,14 +1390,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.23 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.68 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-022 Sources/NeNeBoltCore/Probe.swift:4: async / await / Task / actor / Thread / Dispatch は使えない（並行の形は合成ルートの 1 本のループだけ）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1408,17 +1410,17 @@
       "violation": "Terminal で @preconcurrency import を書く（並行性の error を戻らない warning に下げる・M7-i）",
       "command": "make conformance",
       "exit": 2,
-      "expected": "^CNF-014 Sources/NeNeBoltTerminal/Screen\\.swift",
+      "expected": "^CNF-014 Sources/NeNeBoltTerminal/Console\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-014 Sources/NeNeBoltTerminal/Screen.swift:1: リフレクション・下線付き属性・@preconcurrency・マクロ・動的呼び出しは使えない"
+        "CNF-014 Sources/NeNeBoltTerminal/Console.swift:1: リフレクション・下線付き属性・@preconcurrency・マクロ・動的呼び出しは使えない"
       ],
       "missing": [],
       "tail": [
         "python3 eng/conformance.py",
-        "CNF-014 Sources/NeNeBoltTerminal/Screen.swift:1: リフレクション・下線付き属性・@preconcurrency・マクロ・動的呼び出しは使えない",
+        "CNF-014 Sources/NeNeBoltTerminal/Console.swift:1: リフレクション・下線付き属性・@preconcurrency・マクロ・動的呼び出しは使えない",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1438,14 +1440,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.30 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.27 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-005 .swift-format:1: swift-format の設定 rules は使えない（規則の無効化はリポジトリ全体の抑制になる・M8-j）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1463,14 +1465,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.24 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.23 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-023 README.md:3: 登録商標のゲーム名・キャラクター名・面の名前・会社名は書かない（横スクロールのアクション＝side-scrolling platformer と書く）",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1483,21 +1485,21 @@
       "violation": "Terminal が宣言していない推移的な依存の Core を import する（SwiftPM は拒まない・M6-e）",
       "command": "make check",
       "exit": 2,
-      "expected": "^CNF-011 Sources/NeNeBoltTerminal/Screen\\.swift",
+      "expected": "^CNF-011 Sources/NeNeBoltTerminal/Console\\.swift",
       "verdict": "pass",
       "evidence": [
-        "CNF-011 Sources/NeNeBoltTerminal/Screen.swift:2: NeNeBoltTerminal は NeNeBoltCore を import できない"
+        "CNF-011 Sources/NeNeBoltTerminal/Console.swift:2: NeNeBoltTerminal は NeNeBoltCore を import できない"
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (4.29 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.28 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
-        "CNF-011 Sources/NeNeBoltTerminal/Screen.swift:2: NeNeBoltTerminal は NeNeBoltCore を import できない",
+        "CNF-011 Sources/NeNeBoltTerminal/Console.swift:2: NeNeBoltTerminal は NeNeBoltCore を import できない",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1518,14 +1520,14 @@
       ],
       "missing": [],
       "tail": [
-        "[110 / 110] nene-bolt-product",
-        "Build complete! (5.10 secs)",
+        "[149 / 149] nene-bolt-product",
+        "Build complete! (6.82 secs)",
         "eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format",
         "eng/lint.sh .tools/swiftlint --config .swiftlint.yml",
         "python3 eng/conformance.py",
         "CNF-011 Sources/NeNeBoltCore/Probe.swift:1: NeNeBoltCore は FoundationEssentials を import できない",
         "conformance: 23 規則・違反 1 件",
-        "make: *** [Makefile:32: conformance] Error 1"
+        "make: *** [Makefile:37: conformance] Error 1"
       ]
     },
     {
@@ -1547,10 +1549,10 @@
         "AssertionError: 'CNF-013' not found in [] : CNF-013 が Sources/Core/Board.swift で発火しない",
         "",
         "----------------------------------------------------------------------",
-        "Ran 106 tests in 0.308s",
+        "Ran 106 tests in 0.304s",
         "",
         "FAILED (failures=8)",
-        "make: *** [Makefile:35: conformance-test] Error 1"
+        "make: *** [Makefile:40: conformance-test] Error 1"
       ]
     },
     {

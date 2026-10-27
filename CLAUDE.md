@@ -174,6 +174,7 @@ Waivers: none | WVR-NNNN
 
 現在のタスクは [docs/todo/current.md](docs/todo/current.md)。GitHub Issue が正で、そこは要約。
 
-- 動くもの: `make check`（Core のゲームの進行と当たり判定・4 面の地図・不変条件のテスト 600 ゲーム・ADR 0005 / 0006）
-- 動かないもの: 画面・人の操作・ランナー。Phase 3-2 でテスト用の単純なランナーのまま端末に描いて人の操作を入れ、Phase 3-4 で本物のランナーとキャストを入れる
+- 動くもの: `make check`（smoke を含む）・`nene-bolt`（仮のランナーが TITLE → PLAY → GAME OVER / ENDING を 80 × 24 で遊び続け、遊びのキーで人が割り込み 30 秒で AI に戻る・
+  横に流れる面をカメラで映す・Windows Terminal の押す・離すの方式と簡易な方式・ADR 0005〜0007）
+- 動かないもの: Windows Terminal の実機での確認（Phase 3-3）・本物のランナーとキャストとセリフ（Phase 3-4）・専用の色と演出と大きな端末の配置（Phase 3-5）
 - 施主の決定は [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) にそろっている。決定を覆したくなった点や、要件に無い機能を足したくなった点は、自分で決めずに施主に聞く

@@ -38,6 +38,9 @@
 | ハイスコア（high scores） | 上位 5 件。読み書きは合成ルートだけ（FR-02g） | 合成ルート・`NeNeBoltCore`（並べ方） |
 | シード（seed） | 自前の PRNG の初期値。同じシード・キー入力なしなら同じゲームの列と同じセリフ | 合成ルートが読み、Core と Engine に渡す |
 | セル格子 | 端末の 1 画面分の文字セルの 2 次元配列。Render が作り、Terminal が差分で書く | `NeNeBoltRender` |
+| 面の窓（view） | 画面に映す面の範囲。39 セル × 18 段（端末の 78 桁 × 18 行）。どこを映すかはカメラが決める（ADR 0007） | `NeNeBoltRender`（`Camera`・`ScreenLayout`） |
+| 押す・離すの方式（press and release） | Windows Terminal の win32-input-mode。キーを押したときと離したときの両方が届く。応じない端末は簡易な方式（キーのくり返し）に落ちる（FR-04b） | `NeNeBoltTerminal`（`KeyDecoder`・`HeldKeys`） |
+| 割り込み（take over） | 遊びのキーを押した瞬間から人の操作になること。決めた秒数押さなければ AI に戻る（FR-04a） | 合成ルート（`Controls`） |
 
 ## 使ってはいけない語
 

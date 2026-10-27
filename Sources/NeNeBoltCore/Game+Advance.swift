@@ -1,7 +1,7 @@
 /// 1 刻みの順番（ADR 0005）。順番はこの 1 か所だけで決める。
 extension Game {
     /// 制限時間がこれだけ残ったら急かす（30 秒）。
-    static let hurryTicks = 900
+    public static let hurryTicks = 900
 
     mutating func advance(
         _ buttons: Buttons, tuning: Tuning, using generator: inout some RandomNumberGenerator, events: inout [GameEvent]

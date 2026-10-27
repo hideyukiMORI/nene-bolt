@@ -9,7 +9,7 @@ extension Game {
     }
 
     /// その地形が、いま横からも下からも固いか（消える足場は見えている間だけ）。
-    func isSolid(_ terrain: Terrain) -> Bool {
+    public func isSolid(_ terrain: Terrain) -> Bool {
         switch terrain {
         case .solid, .ice, .conveyor: true
         case .vanishing(let group): VanishingClock.isVisible(group: group, at: stageTick)
@@ -66,7 +66,7 @@ extension Game {
     }
 
     /// 箱の真ん中の列に梯子があるか（つかまれるか）。
-    func ladderColumn(for box: Box) -> Int? {
+    public func ladderColumn(for box: Box) -> Int? {
         let column = Field.cell(box.centerX)
         let (_, rows) = Game.cells(of: box)
         for row in rows {

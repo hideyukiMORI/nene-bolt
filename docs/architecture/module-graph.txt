@@ -7,7 +7,7 @@
 NeNeBoltCore          kind=library     deps=
 NeNeBoltEngine        kind=library     deps=NeNeBoltCore
 NeNeBoltRender        kind=library     deps=NeNeBoltCore,NeNeBoltEngine
-NeNeBoltTerminal      kind=library     deps=NeNeBoltRender                                       std=Glibc unsafe=allowed
+NeNeBoltTerminal      kind=library     deps=NeNeBoltRender                                       std=Glibc,Synchronization unsafe=allowed
 nene-bolt             kind=executable  deps=NeNeBoltCore,NeNeBoltEngine,NeNeBoltRender,NeNeBoltTerminal std=Glibc role=composition-root
 
 NeNeBoltCoreTests     kind=test        deps=NeNeBoltCore                                         std=Testing

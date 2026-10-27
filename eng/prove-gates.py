@@ -5,11 +5,11 @@
 「意図した規則 ID（または道具の規則名）で落ちること」を出力から確かめる。仕込まない複製（対照）では `make check` が
 exit 0 になることも確かめる。作業木そのものには触れない。
 
-違反を仕込むには Swift のソースが要るので、どの証明も同じ「足場」（依存グラフの正本どおりの 5 target と Core のテスト target・
-規則に沿った最小のソース）を置いてから 1 か所だけ壊す。足場は証明のための一時物で、作業木には入れない。
+すべての target が作業木にある（Issue #5）ので、証明は本物のソースや設定に違反を 1 か所だけ仕込む。
 
-移植元: NeNe Swarm eng/prove-gates.py（コミット 14f3283 の足場の方式。Swarm は NeNe Poker の 13d7e53 から移植した）。
-証明の番号と意味は Swarm と同じ（ADR 0003）。CNF-023 の証明 P62 の語だけを替えた。
+移植元: Issue #1・#3 は NeNe Swarm eng/prove-gates.py（コミット 14f3283 の足場の方式）。Issue #5 で全 target がそろったので、
+足場をやめた Swarm の形（コミット a660f47）に移した。証明の番号と意味は Swarm と同じ（ADR 0003）。
+公開の証明（P51〜P54）は公開の段（Phase 4）で足す。CNF-023 の証明 P62 の語と、P04・P48・P49 の仕込み先はこのリポジトリのソースに合わせた。
 
     python3 eng/prove-gates.py [--only P01 P02 ...]
 """
@@ -32,96 +32,6 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "quality" / "gate-proofs.json"
 SETTINGS = 'swiftSettings: [.treatAllWarnings(as: .error), .enableUpcomingFeature("ExistentialAny")]'
 
-TARGETS = {
-    "NeNeBoltCore": ("target", ""),
-    "NeNeBoltEngine": ("target", '"NeNeBoltCore"'),
-    "NeNeBoltRender": ("target", '"NeNeBoltCore", "NeNeBoltEngine"'),
-    "NeNeBoltTerminal": ("target", '"NeNeBoltRender"'),
-    "nene-bolt": ("executableTarget",
-                    '"NeNeBoltCore", "NeNeBoltEngine", "NeNeBoltRender", "NeNeBoltTerminal"'),
-    "NeNeBoltCoreTests": ("testTarget", '"NeNeBoltCore"'),
-}
-
-SOURCES = {
-    "Sources/NeNeBoltCore/Square.swift": """\
-/// 盤面の列の番号。証明用の最小の型。
-public struct Square: Hashable, Sendable {
-    public let index: Int
-
-    private init(index: Int) {
-        self.index = index
-    }
-
-    /// 0〜79 の列を作る。範囲外なら nil。
-    public static func make(_ index: Int) -> Square? {
-        (0..<80).contains(index) ? Square(index: index) : nil
-    }
-}
-""",
-    "Sources/NeNeBoltEngine/Pick.swift": """\
-import NeNeBoltCore
-
-/// 注入された乱数源から升を選ぶ。証明用の最小の型。
-public enum Pick {
-    /// 0..<count から 1 つ選ぶ。
-    public static func square(count: Int, using generator: inout some RandomNumberGenerator) -> Square? {
-        Square.make(Int.random(in: 0..<count, using: &generator))
-    }
-}
-""",
-    "Sources/NeNeBoltRender/Cell.swift": """\
-/// 文字セル 1 つ。証明用の最小の型。
-public struct Cell: Sendable {
-    public let glyph: Character
-
-    /// セルを作る。
-    public init(glyph: Character) {
-        self.glyph = glyph
-    }
-}
-""",
-    "Sources/NeNeBoltTerminal/Screen.swift": """\
-import Glibc
-
-/// 端末の大きさを読む。unsafe 系 API を許す区画の証明用。
-public enum Screen {
-    /// 端末の桁数。読めなければ 0。
-    public static func columns() -> Int {
-        var size = winsize()
-        let status = withUnsafeMutablePointer(to: &size) { pointer in
-            ioctl(STDOUT_FILENO, UInt(TIOCGWINSZ), pointer)
-        }
-        return status == 0 ? Int(size.ws_col) : 0
-    }
-}
-""",
-    "Sources/nene-bolt/main.swift": """\
-import NeNeBoltCore
-import NeNeBoltEngine
-import NeNeBoltTerminal
-
-let start = ContinuousClock.now
-var generator = SystemRandomNumberGenerator()
-let square = Pick.square(count: 80, using: &generator)
-let arguments = CommandLine.arguments.count
-print(square?.index ?? -1, Screen.columns(), arguments, ContinuousClock.now - start >= .zero)
-""",
-}
-
-
-def package_swift(extra: dict[str, str] | None = None) -> str:
-    """足場の Package.swift。extra は target 名 → 置き換える `.target(...)` の本文。"""
-    lines = []
-    for name, (kind, deps) in TARGETS.items():
-        default = f'.{kind}(name: "{name}", dependencies: [{deps}], {SETTINGS})'
-        lines.append((extra or {}).get(name, default))
-    body = ",\n        ".join(lines)
-    return (
-        "// swift-tools-version: 6.2\n\nimport PackageDescription\n\nlet package = Package(\n"
-        '    name: "NeNeBolt",\n    targets: [\n        ' + body + "\n    ],\n"
-        "    swiftLanguageModes: [.v6]\n)\n"
-    )
-
 
 @dataclass
 class Proof:
@@ -131,7 +41,6 @@ class Proof:
     mutate: Callable[[Path], None]
     expect: str  # 出力に現れるべき正規表現（意図した規則 ID か道具の規則名）
     command: list[str] = field(default_factory=lambda: ["make", "check"])
-    scaffold: bool = True
     expect_exit_zero: bool = False
     expect_all: list[str] = field(default_factory=list)  # 追加で、出力にすべて現れるべき正規表現
 
@@ -227,21 +136,19 @@ def every_lint_rule() -> str:
 
 
 PROOFS: list[Proof] = [
-    Proof("P00", [], "対照: 足場だけ（違反なし）。合成ルートが時計・乱数・CommandLine・print を使い、Terminal が withUnsafe を使う",
+    Proof("P00", [], "対照: 作業木そのまま（違反なし）。合成ルートが時計・乱数・CommandLine・getenv を使い、Terminal が withUnsafe と ioctl を使う",
           nothing, r"make check: 緑", expect_exit_zero=True),
-    Proof("P00b", [], "対照: 足場を置かない作業木そのまま", nothing, r"make check: 緑", scaffold=False, expect_exit_zero=True),
     Proof("P01", ["ARC-002"], "Core が宣言していない Engine を import する",
           core_file("Probe.swift", "import NeNeBoltEngine\n\n/// 証明用。\nenum Probe {}\n"), r"no such module 'NeNeBoltEngine'"),
     Proof("P02", ["ARC-002", "CNF-010", "QLT-006"], "Terminal が正本に無い Core への依存を宣言する（循環は作らない）",
-          lambda r: write(r, "Package.swift", package_swift({"NeNeBoltTerminal":
-              f'.target(name: "NeNeBoltTerminal", dependencies: ["NeNeBoltRender", "NeNeBoltCore"], {SETTINGS})'})),
+          lambda r: edit(r, "Package.swift", 'name: "NeNeBoltTerminal",\n            dependencies: ["NeNeBoltRender"],',
+                         'name: "NeNeBoltTerminal",\n            dependencies: ["NeNeBoltRender", "NeNeBoltCore"],'),
           r"^CNF-010 Package\.swift"),
     Proof("P03", ["ARC-003", "CNF-011", "SWF-014", "QLT-006"], "Core が Foundation を import する",
           core_file("Probe.swift", "import Foundation\n\n/// 証明用。\nenum Probe {}\n"), r"^CNF-011 Sources/NeNeBoltCore/Probe\.swift"),
     Proof("P04", ["ARC-007", "CNF-012"], "Engine が using: の無い Int.random を呼ぶ",
-          lambda r: edit(r, "Sources/NeNeBoltEngine/Pick.swift", "Int.random(in: 0..<count, using: &generator)",
-                         "Int.random(in: 0..<count)"),
-          r"^CNF-012 Sources/NeNeBoltEngine/Pick\.swift"),
+          lambda r: edit(r, "Sources/NeNeBoltEngine/Autopilot.swift", "UInt16.random(in: 0..<1_000, using: &generator)", "UInt16.random(in: 0..<1_000)"),
+          r"^CNF-012 Sources/NeNeBoltEngine/Autopilot\.swift"),
     Proof("P05", ["ARC-007", "CNF-012"], "Core のテストが CommandLine.arguments を読む（テストにも禁止がかかる）",
           lambda r: write(r, "Tests/NeNeBoltCoreTests/ProbeTests.swift",
                           "/// 証明用。\nenum ProbeTests {\n    static let count = CommandLine.arguments.count\n}\n"),
@@ -254,10 +161,10 @@ PROOFS: list[Proof] = [
           core_file("Side.swift", SWITCH.replace("BODY", "case let other:\n        return other == .none ? 0 : 2")),
           r"^CNF-013 Sources/NeNeBoltCore/Side\.swift"),
     Proof("P09", ["SWF-003", "CNF-016"], "公開の格納 var を置く",
-          lambda r: edit(r, "Sources/NeNeBoltRender/Cell.swift", "public let glyph", "public var glyph"),
+          lambda r: edit(r, "Sources/NeNeBoltRender/Cell.swift", "public let character", "public var character"),
           r"^CNF-016 Sources/NeNeBoltRender/Cell\.swift"),
     Proof("P10", ["SWF-004"], "強制アンラップを書く",
-          lambda r: edit(r, "Sources/nene-bolt/main.swift", "square?.index ?? -1", "square!.index"),
+          lambda r: edit(r, "Sources/nene-bolt/main.swift", "seed: options.seed ?? systemRandom.next())", "seed: options.seed!)"),
           r"\(force_unwrapping\)"),
     Proof("P11", ["SWF-005", "CNF-019"], "製品コードに throws を書く",
           core_file("Probe.swift", "/// 証明用。\nenum Probe {\n    /// 証明用。\n    static func load() throws -> Int { 1 }\n}\n"),
@@ -269,7 +176,7 @@ PROOFS: list[Proof] = [
           core_file("Probe.swift", "/// 証明用。\nenum Probe {\n    /// 証明用。\n    static func triple() -> (Int, Int, Int) { (1, 2, 3) }\n}\n"),
           r"\(large_tuple\)"),
     Proof("P14", ["SWF-009", "CNF-014"], "Core で unsafeBitCast を使う",
-          core_file("Probe.swift", "/// 証明用。\nenum Probe {\n    static let square = unsafeBitCast(99, to: Square.self)\n}\n"),
+          core_file("Probe.swift", "/// 証明用。\nenum Probe {\n    static let posture = unsafeBitCast(UInt8(0), to: Posture.self)\n}\n"),
           r"^CNF-014 Sources/NeNeBoltCore/Probe\.swift"),
     Proof("P15", ["SWF-010", "CNF-001"], "型を BoardHelper と名付ける",
           core_file("BoardHelper.swift", "/// 証明用。\nenum BoardHelper {}\n"), r"^CNF-001 Sources/NeNeBoltCore/BoardHelper\.swift"),
@@ -284,8 +191,9 @@ PROOFS: list[Proof] = [
                     + "        return -1\n    }\n}\n"),
           r"\(cyclomatic_complexity\)"),
     Proof("P19", ["SWF-015", "CNF-003"], "waiver 無しの swiftlint:disable:next で強制アンラップを抑制する",
-          lambda r: edit(r, "Sources/nene-bolt/main.swift", "print(square?.index ?? -1,",
-                         "// " + "swift" + "lint:disable:next force_unwrapping\nprint(square!.index,"),
+          lambda r: edit(r, "Sources/nene-bolt/main.swift",
+                         "var screensaver = Screensaver(options: options, display: display, seed: options.seed ?? systemRandom.next())",
+                         "// " + "swift" + "lint:disable:next force_unwrapping\nvar screensaver = Screensaver(options: options, display: display, seed: options.seed!)"),
           r"^CNF-003 Sources/nene-bolt/main\.swift"),
     Proof("P20", ["SWF-015", "CNF-003"], "@diagnose で非推奨の警告を消す",
           core_file("Probe.swift", "/// 証明用。\nenum Probe {\n    @available(*, deprecated)\n    static func old() -> Int { 1 }\n\n"
@@ -302,8 +210,8 @@ PROOFS: list[Proof] = [
           lambda r: write(r, "Tests/NeNeBoltCoreTests/ProbeTests.swift", "import XCTest\n\n/// 証明用。\nenum ProbeTests {}\n"),
           r"^CNF-011 Tests/NeNeBoltCoreTests/ProbeTests\.swift"),
     Proof("P23", ["QLT-002", "CNF-009"], "target の警告設定を treatAllWarnings(as: .warning) に緩める（警告の出るコードは置かない。設定そのものを拒むこと）",
-          lambda r: write(r, "Package.swift", package_swift({"NeNeBoltCore":
-              '.target(name: "NeNeBoltCore", swiftSettings: [.treatAllWarnings(as: .warning), .enableUpcomingFeature("ExistentialAny")])'})),
+          lambda r: edit(r, "Package.swift", 'name: "NeNeBoltCore",\n            swiftSettings: [.treatAllWarnings(as: .error)',
+                         'name: "NeNeBoltCore",\n            swiftSettings: [.treatAllWarnings(as: .warning)'),
           r"^CNF-009 Package\.swift"),
     Proof("P24", ["QLT-002"], "未使用のローカル定数を置く（警告がエラーになること）",
           core_file("Probe.swift", "/// 証明用。\nenum Probe {\n    /// 証明用。\n    static func run() -> Int {\n        let unused = 1\n        return 2\n    }\n}\n"),
@@ -315,7 +223,7 @@ PROOFS: list[Proof] = [
                      write(r, "Sources/NeNeBoltCore/Hidden.swift", "let x = 1\n")),
           r"^CNF-005 \.gitignore"),
     Proof("P27", ["QLT-004"], "インデントを 2 桁にする", lambda r: edit(r, "Sources/NeNeBoltRender/Cell.swift",
-          "    public let glyph", "  public let glyph"), r"\[Indentation\]"),
+          "    public let character", "  public let character"), r"\[Indentation\]"),
     Proof("P28", ["QLT-004", "CNF-007"], "Core のディレクトリに入れ子の .swiftlint.yml を置く",
           lambda r: write(r, "Sources/NeNeBoltCore/.swiftlint.yml", "only_rules:\n  - force_cast # SWF-004\n"),
           r"^CNF-007 Sources/NeNeBoltCore/\.swiftlint\.yml"),
@@ -334,8 +242,8 @@ PROOFS: list[Proof] = [
           lambda r: replace_line(r, "docs/quality/gate-proofs.md", r"^\| CNF-015 \|.*$", "| CNF-015 |  |  |  |"),
           r"^CNF-006 docs/quality/gate-proofs\.md:1: active の CNF-015 の証明行に実測が書かれていない"),
     Proof("P32", ["CNF-008"], "Issue 番号の無い作業メモ（" + "TO" + "DO）を書く",
-          lambda r: edit(r, "Sources/NeNeBoltCore/Square.swift", "/// 盤面の列の番号。", "// " + "TO" + "DO あとで直す\n/// 盤面の列の番号。"),
-          r"^CNF-008 Sources/NeNeBoltCore/Square\.swift"),
+          lambda r: edit(r, "Sources/NeNeBoltCore/Point.swift", "/// 盤面の上の位置", "// " + "TO" + "DO あとで直す\n/// 盤面の上の位置"),
+          r"^CNF-008 Sources/NeNeBoltCore/Point\.swift"),
     Proof("P33", ["QLT-011", "CNF-009"], "許可リストに無い外部パッケージを manifest に書く（解決に行かせないため狭い検査で）",
           lambda r: edit(r, "Package.swift", "    targets: [",
                          '    dependencies: [.package(url: "https://github.com/example/game-engine.git", exact: "1.0.0")],\n    targets: ['),
@@ -371,9 +279,13 @@ PROOFS: list[Proof] = [
           expect_all=[rf"\({rule}\)" for rule in LINT_RULES]),
     Proof("P47", ["QLT-002"], "ソースの無いテスト target を manifest に足す（SwiftPM 自身が警告を出し、コンパイラの警告エラーの外にある）",
           lambda r: (edit(r, "Package.swift", "    targets: [",
-                          f'    targets: [\n        .testTarget(name: "NeNeBoltEngineTests", dependencies: ["NeNeBoltCore", "NeNeBoltEngine"], {SETTINGS}),'),
-                     (r / "Tests/NeNeBoltEngineTests").mkdir(parents=True)),
+                          f'    targets: [\n        .testTarget(name: "NeNeBoltProbeTests", dependencies: ["NeNeBoltCore"], {SETTINGS}),'),
+                     (r / "Tests/NeNeBoltProbeTests").mkdir(parents=True)),
           r"swift-strict: SwiftPM かコンパイラが警告を出した"),
+    Proof("P49", ["QLT-001"], "端末を戻す列からカーソル表示と alternate screen の終了を消す（make smoke が実際に端末の復元を見て落ちること）",
+          lambda r: edit(r, "Sources/NeNeBoltTerminal/ConsoleState.swift",
+                         'Array("\\u{1B}[?9001l\\u{1B}[0m\\u{1B}[?25h\\u{1B}[?1049l".utf8)', 'Array("\\u{1B}[0m".utf8)'),
+          r"smoke: NG  q: 最後に端末を戻す"),
     Proof("P48", ["QLT-001"], "当たり判定のテストの期待する得点を 1 つ変える（make check の中で swift test が実際に回って落ちること）",
           lambda r: edit(r, "Tests/NeNeBoltCoreTests/CombatTests.swift", "#expect(game.score == 100)\n", "#expect(game.score == 101)\n"),
           r"✘ Test aShotDefeatsAWalkerAndScores"),
@@ -391,15 +303,15 @@ PROOFS: list[Proof] = [
           core_file("Pair.swift", "/// 証明用。\nenum Pair {\n    case one\n    case two\n\n    /// 証明用。\n    static func both(_ a: Pair, _ b: Pair) -> Int {\n"
                     "        switch (a, b) {\n        case (.one, .one):\n            return 1\n        case (_, _):\n            return 0\n        }\n    }\n}\n"),
           r"^CNF-013 Sources/NeNeBoltCore/Pair\.swift"),
-    Proof("P58", ["SWF-007", "CNF-021"], "別ファイルの extension に init を足し、private init を経ずに Square を作る（M4-f）",
-          core_file("Square+Bypass.swift", "extension Square {\n    /// 証明用。\n    init(bypass: Int) {\n        index = bypass\n    }\n}\n"),
-          r"^CNF-021 Sources/NeNeBoltCore/Square\+Bypass\.swift"),
+    Proof("P58", ["SWF-007", "CNF-021"], "別ファイルの extension に init を足し、private init を経ずに Point を作る（M4-f）",
+          core_file("Point+Bypass.swift", "extension Point {\n    /// 証明用。\n    init(bypass: Int) {\n        x = bypass\n        y = bypass\n    }\n}\n"),
+          r"^CNF-021 Sources/NeNeBoltCore/Point\+Bypass\.swift"),
     Proof("P59", ["SWF-013", "CNF-022"], "Core に async の関数を書く",
           core_file("Probe.swift", "/// 証明用。\nenum Probe {\n    /// 証明用。\n    static func wait() async -> Int { 1 }\n}\n"),
           r"^CNF-022 Sources/NeNeBoltCore/Probe\.swift"),
     Proof("P60", ["SWF-009", "SWF-015", "CNF-014"], "Terminal で @preconcurrency import を書く（並行性の error を戻らない warning に下げる・M7-i）",
-          lambda r: edit(r, "Sources/NeNeBoltTerminal/Screen.swift", "import Glibc\n", "@preconcurrency import Glibc\n"),
-          r"^CNF-014 Sources/NeNeBoltTerminal/Screen\.swift", command=["make", "conformance"]),
+          lambda r: edit(r, "Sources/NeNeBoltTerminal/Console.swift", "import Glibc\n", "@preconcurrency import Glibc\n"),
+          r"^CNF-014 Sources/NeNeBoltTerminal/Console\.swift", command=["make", "conformance"]),
     Proof("P61", ["QLT-003", "QLT-004", "CNF-005"], ".swift-format の rules で規則を 1 つ切る（リポジトリ全体の抑制になる・M8-j）",
           lambda r: write(r, ".swift-format", '{\n  "version": 1,\n  "indentation": {\n    "spaces": 4\n  },\n  "lineLength": 120,\n'
                           '  "rules": {\n    "AlwaysUseLowerCamelCase": false\n  }\n}\n'),
@@ -408,8 +320,8 @@ PROOFS: list[Proof] = [
           lambda r: edit(r, "README.md", "# NeNe Bolt\n", "# NeNe Bolt\n\nA love letter to " + "Rock" + "man.\n"),
           r"^CNF-023 README\.md"),
     Proof("P63", ["ARC-002", "CNF-011", "QLT-006"], "Terminal が宣言していない推移的な依存の Core を import する（SwiftPM は拒まない・M6-e）",
-          lambda r: edit(r, "Sources/NeNeBoltTerminal/Screen.swift", "import Glibc\n", "import Glibc\nimport NeNeBoltCore\n"),
-          r"^CNF-011 Sources/NeNeBoltTerminal/Screen\.swift"),
+          lambda r: edit(r, "Sources/NeNeBoltTerminal/Console.swift", "import Glibc\n", "import Glibc\nimport NeNeBoltCore\n"),
+          r"^CNF-011 Sources/NeNeBoltTerminal/Console\.swift"),
     Proof("P64", ["ARC-003", "ARC-007", "CNF-011", "SWF-014"], "Core が FoundationEssentials を import する（Foundation とは別の名前で Date が読める・M5-j）",
           core_file("Probe.swift", "import FoundationEssentials\n\n/// 証明用。\nenum Probe {}\n"), r"^CNF-011 Sources/NeNeBoltCore/Probe\.swift"),
     Proof("P65", ["QLT-007"], "規約検査の CNF-013 の選択肢ごとの判定を壊す（検査器の単体テストが落ちること）",
@@ -419,8 +331,7 @@ PROOFS: list[Proof] = [
     Proof("P42", ["GIT-003"], "形の合わないコミットをフック付きで作ろうとする（フックが拒む）",
           lambda r: subprocess.run(["git", "-C", str(r), "config", "core.hooksPath", ".githooks"], check=True),
           r"GIT-003 件名は",
-          command=["git", "-c", "user.name=proof", "-c", "user.email=proof@example.invalid", "commit", "--allow-empty", "-m", "update stuff"],
-          scaffold=False),
+          command=["git", "-c", "user.name=proof", "-c", "user.email=proof@example.invalid", "commit", "--allow-empty", "-m", "update stuff"]),
 ]
 
 
@@ -511,24 +422,13 @@ def fill_pending(root: Path) -> None:
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def scaffold(root: Path) -> None:
-    write(root, "Package.swift", package_swift())
-    for rel, text in SOURCES.items():
-        write(root, rel, text)
-
 
 def run_proof(proof: Proof) -> dict:
     with tempfile.TemporaryDirectory(prefix=f"bolt-proof-{proof.id}-") as tmp:
         root = Path(tmp) / "repo"
         copy_tree(root)
         fill_pending(root)
-        if proof.scaffold:
-            scaffold(root)
         proof.mutate(root)
-        if proof.scaffold:
-            # 生成した manifest の行の長さは証明の対象ではないので、Package.swift だけ整形してから回す
-            subprocess.run(["swift-format", "format", "-i", "--configuration", ".swift-format", "Package.swift"],
-                           cwd=root, capture_output=True)
         p = subprocess.run(proof.command, cwd=root, capture_output=True, text=True, timeout=1800,
                            env=dict(os.environ, NO_COLOR="1"))
         output = (p.stdout + p.stderr).replace(str(root) + "/", "")
