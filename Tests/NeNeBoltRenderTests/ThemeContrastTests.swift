@@ -31,7 +31,7 @@ struct ThemeContrastTests {
     func everyCharacterOnScreenIsReadable(_ theme: Theme) {
         let display = DisplayOptions(theme: theme, traits: TerminalTraits(frame: .boxDrawing, colors: .trueColor))
         for ticks in [0, 40, 400, 1_500, 4_000] {
-            for pilot in [PilotLabel.autopilot(name: "BOLT.EXE"), .player(secondsLeft: 9)] {
+            for pilot in [PilotLabel.autopilot(name: "BOLT.EXE", face: "(o_o)"), .player(secondsLeft: 9)] {
                 let state = ScreenRendererTests.state(
                     ScreenRendererTests.session(ticks: ticks), display: display, pilot: pilot, keys: .repeatOnly)
                 let grid = ScreenRenderer.render(state, size: ScreenRendererTests.size)

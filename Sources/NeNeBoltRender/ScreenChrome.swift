@@ -12,6 +12,17 @@ enum ScreenChrome {
         ]
     }
 
+    /// COMMS: ランナーの顔とセリフ（直近の 1 行）。
+    static func comms(_ state: ScreenState, glyphs: FrameGlyphs) -> [Segment] {
+        let theme = state.display.theme
+        guard let remark = state.remark else {
+            return [Segment(" " + glyphs.marker, theme.dim)]
+        }
+        return [
+            Segment(" " + glyphs.marker + remark.persona.face + " ", theme.accent), Segment(remark.text, theme.text),
+        ]
+    }
+
     /// `[q] QUIT  [t] THEME NEON  [d] NORMAL  ARROWS MOVE  Z JUMP  X FIRE`
     static func footer(_ state: ScreenState) -> [Segment] {
         let theme = state.display.theme

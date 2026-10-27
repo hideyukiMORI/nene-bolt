@@ -49,8 +49,16 @@ enum Wording {
 
     static func pilot(_ label: PilotLabel) -> String {
         switch label {
-        case .autopilot(let name): "AUTO " + name
+        case .autopilot(let name, _): "AUTO " + name
         case .player(let secondsLeft): "PLAYER " + digits(secondsLeft, 2) + "s"
+        }
+    }
+
+    /// TITLE に出す次のランナー（顔つき）。
+    static func nextRunner(_ label: PilotLabel) -> String {
+        switch label {
+        case .autopilot(let name, let face): "NEXT RUNNER " + name + " " + face
+        case .player: pilot(label)
         }
     }
 

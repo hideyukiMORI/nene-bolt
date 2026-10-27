@@ -1,7 +1,7 @@
 import NeNeBoltCore
-import NeNeBoltEngine
 import Testing
 
+@testable import NeNeBoltEngine
 @testable import NeNeBoltRender
 
 /// 1 画面分の格子（FR-07・FR-10・FR-13・FR-15・FR-16・ADR 0007）。
@@ -26,14 +26,16 @@ struct ScreenRendererTests {
     }
 
     static func state(
-        _ session: Session, display: DisplayOptions = boxed, pilot: PilotLabel = .autopilot(name: "BOLT.EXE"),
+        _ session: Session, display: DisplayOptions = boxed,
+        pilot: PilotLabel = .autopilot(name: "BOLT.EXE", face: "(o_o)"),
         keys: KeyReading = .unknown
     ) -> ScreenState {
         ScreenState(
             session: session, display: display, difficulty: .normal, seed: 9,
             highScores: HighScoreTable(entries: [HighScore(score: 4_321, pilot: "PLAYER", stage: 2, difficulty: .easy)]
             ),
-            pilot: pilot, keys: keys, storage: .memoryOnly)
+            pilot: pilot, keys: keys, storage: .memoryOnly,
+            remark: Remark(persona: .glitch, cue: .hit, text: "Ow. Was that me? That was me."))
     }
 
     static func render(_ session: Session, display: DisplayOptions = boxed, size: ScreenSize = size) -> Grid {
@@ -149,6 +151,23 @@ struct ScreenRendererTests {
                 #expect(camera.top % Field.cellUnits == 0)
             }
         }
+    }
+
+    /// COMMS の行に、話したランナーの顔とセリフが出る（ADR 0009）。
+    @Test func commsShowsTheFaceAndTheLine() {
+        let remark = Remark(persona: .hoard, cue: .hit, text: "Ow! Mind the pockets, they're full.")
+        let state = ScreenState(
+            session: Self.session(ticks: 200), display: Self.boxed, difficulty: .normal, seed: 9, highScores: .empty,
+            pilot: .autopilot(name: "HOARD.ZIP", face: "($_$)"), keys: .unknown, storage: .file, remark: remark)
+        let grid = ScreenRenderer.render(state, size: Self.size)
+        let row = String((0..<80).map { grid[$0, ScreenLayout.commsRow].character })
+        #expect(row.contains("($_$) Ow! Mind the pockets, they're full."))
+    }
+
+    /// TITLE に次のランナーの名前と顔が出る。
+    @Test func theTitleShowsTheNextRunnerWithItsFace() {
+        let text = Self.text(Self.render(Self.session(ticks: 0)))
+        #expect(text.contains("NEXT RUNNER BOLT.EXE (o_o)"))
     }
 
     @Test func aSmallTerminalGetsOneLine() {
