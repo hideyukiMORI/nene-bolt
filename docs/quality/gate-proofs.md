@@ -58,7 +58,7 @@ CI: GitHub Actions `ubuntu-22.04` / Swift 6.4.1（固定の tarball・`eng/insta
 | QLT-006 | P02: Terminal が正本に無い Core への依存を宣言する（循環は作らない）<br>P03: Core が Foundation を import する<br>P63: Terminal が宣言していない推移的な依存の Core を import する（SwiftPM は拒まない・M6-e） | `make check` | P02: exit 2・`CNF-010 Package.swift:17: target NeNeBoltTerminal の依存が正本と違う（余分: NeNeBoltCore / 不足: なし）`<br>P03: exit 2・`CNF-011 Sources/NeNeBoltCore/Probe.swift:1: NeNeBoltCore は Foundation を import できない`<br>P63: exit 2・`CNF-011 Sources/NeNeBoltTerminal/Screen.swift:2: NeNeBoltTerminal は NeNeBoltCore を import できない` |
 | QLT-007 | P29: SourceKit が要る規則（statement_position）を有効にする（静的バイナリが黙って飛ばす）<br>P38: 規約検査の CNF-013 の検出を壊す（検査器の単体テストが落ちること）<br>P65: 規約検査の CNF-013 の選択肢ごとの判定を壊す（検査器の単体テストが落ちること） | `make check` | P29: exit 2・`lint: 有効にした規則が実行されていない（CNF-007）`<br>P38: exit 2・`FAILED (failures=1)`<br>P65: exit 2・`FAILED (failures=8)` |
 | QLT-011 | P33: 許可リストに無い外部パッケージを manifest に書く（解決に行かせないため狭い検査で）<br>P34: SwiftLint の lock の SHA-256 を 1 文字変え、道具を入れ直させる | `make conformance`<br>`make tools` | P33: exit 2・`CNF-009 Package.swift:7: 許可リストに無い外部パッケージ`<br>P34: exit 2・`/tmp/tmp.gxXBA6cZ5g/swiftlint_linux_amd64.zip: FAILED` |
-| QLT-012 | P45: CI のジョブに draft を飛ばす if: を書く（スキップは成功として数えられる）<br>P46: draft の PR に push する（CI のジョブはスキップでなく失敗し、PR はマージできない） | `make check`<br>未実測 | P45: exit 2・`CNF-018 .github/workflows/ci.yml:16: if: は使えない（スキップされた必須 check は成功として数えられる）`<br>P46: 未実測 |
+| QLT-012 | P45: CI のジョブに draft を飛ばす if: を書く（スキップは成功として数えられる）<br>P46: draft の PR に push する（CI のジョブはスキップでなく失敗し、PR はマージできない） | GitHub Actions run 40457096723（PR #2・head 005cbba・2026-10-27T05:45Z）<br>`make check` | P45: exit 2・`CNF-018 .github/workflows/ci.yml:16: if: は使えない（スキップされた必須 check は成功として数えられる）`<br>P46: step `eng/ci-require-ready.sh true` が `ci: PR が draft なのでフルゲートを回さない。Ready にすると回る（QLT-012）` で exit 1。必須 check `check` は FAILURE・`mergeStateStatus` は `BLOCKED` |
 | CNF-001 | P15: 型を BoardHelper と名付ける | `make check` | P15: exit 2・`CNF-001 Sources/NeNeBoltCore/BoardHelper.swift:2: 総称名の型 BoardHelper` |
 | CNF-002 | P16: 1 ファイルに最上位の型を 2 つ置く | `make check` | P16: exit 2・`CNF-002 Sources/NeNeBoltCore/Probe.swift:5: 主要宣言が 2 個ある: Probe, Other` |
 | CNF-003 | P19: waiver 無しの swiftlint:disable:next で強制アンラップを抑制する<br>P20: @diagnose で非推奨の警告を消す | `make check` | P19: exit 2・`CNF-003 Sources/nene-bolt/main.swift:9: 直前行に有効な // Waiver: WVR-NNNN が無い`<br>P20: exit 2・`CNF-003 Sources/NeNeBoltCore/Probe.swift:3: @available(..., deprecated) は非推奨の警告を隠す` |
@@ -83,7 +83,7 @@ CI: GitHub Actions `ubuntu-22.04` / Swift 6.4.1（固定の tarball・`eng/insta
 | CNF-022 | P59: Core に async の関数を書く | `make check` | P59: exit 2・`CNF-022 Sources/NeNeBoltCore/Probe.swift:4: async / await / Task / actor / Thread / Dispatch は使えない（並行の形は合成ルートの 1 本のループだけ` |
 | CNF-023 | P62: README に登録商標のゲーム名を書く | `make check` | P62: exit 2・`CNF-023 README.md:3: 登録商標のゲーム名・キャラクター名・面の名前・会社名は書かない（横スクロールのアクション＝side-scrolling platformer と書く）` |
 | GIT-003 | P41: 形の合わないコミット（--no-verify でフックを迂回）<br>P42: 形の合わないコミットをフック付きで作ろうとする（フックが拒む） | `git -c user.name=proof -c user.email=proof@example.invalid commit --allow-empty -m update stuff`<br>`make check` | P41: exit 2・`GIT-003 554f102: 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci`<br>P42: exit 1・`GIT-003 件名は `<type>(<scope>): <日本語の説明> (#<issue番号>)` の形（type は feat / fix / docs / refactor / test / build / ci / chore）` |
-| GIT-004 | P43: ruleset が `main` に効いていることを読み戻し、必須 check の失敗した PR がマージできないことを見る（`main` への直接 push と force push の試行は、公開リポジトリの `main` を壊しうるので行っていない） | 未実測 | P43: 未実測 |
+| GIT-004 | P43: ruleset が `main` に効いていることを読み戻し、必須 check の失敗した PR がマージできないことを見る（`main` への直接 push と force push の試行は、公開リポジトリの `main` を壊しうるので行っていない） | `gh api repos/hideyukiMORI/nene-bolt/rules/branches/main`・`gh pr view 2`（2026-10-27） | P43: `main` に効く規則は ruleset 25935437 の `deletion`・`non_fast_forward`・`pull_request`（squash のみ）・`required_status_checks`（`check`）の 4 つ。PR #2 の head 005cbba は必須 check `check` が FAILURE で `mergeStateStatus` が `BLOCKED` |
 <!-- proofs:active:end -->
 
 **復帰の確認**: 対照 P00（足場だけ・違反なし）と P00b（足場を置かない作業木そのまま）が、どちらも `make check` で exit 0（`make check: 緑`）。
@@ -158,8 +158,8 @@ CI: GitHub Actions `ubuntu-22.04` / Swift 6.4.1（固定の tarball・`eng/insta
 | P64 | ARC-003, ARC-007, CNF-011, SWF-014 | Core が FoundationEssentials を import する（Foundation とは別の名前で Date が読める・M5-j） | `make check` | exit 2 | pass |
 | P65 | QLT-007 | 規約検査の CNF-013 の選択肢ごとの判定を壊す（検査器の単体テストが落ちること） | `make check` | exit 2 | pass |
 | P42 | GIT-003 | 形の合わないコミットをフック付きで作ろうとする（フックが拒む） | `git -c user.name=proof -c user.email=proof@example.invalid commit --allow-empty -m update stuff` | exit 1 | pass |
-| P43 | GIT-004 | ruleset が `main` に効いていることを読み戻し、必須 check の失敗した PR がマージできないことを見る（`main` への直接 push と force push の試行は、公開リポジトリの `main` を壊しうるので行っていない） | 未実測 | 第 1-a 節 | pass |
-| P46 | QLT-012 | draft の PR に push する（CI のジョブはスキップでなく失敗し、PR はマージできない） | 未実測 | 第 1-a 節 | pass |
+| P43 | GIT-004 | ruleset が `main` に効いていることを読み戻し、必須 check の失敗した PR がマージできないことを見る（`main` への直接 push と force push の試行は、公開リポジトリの `main` を壊しうるので行っていない） | `gh api repos/hideyukiMORI/nene-bolt/rules/branches/main`・`gh pr view 2`（2026-10-27） | 第 1-a 節 | pass |
+| P46 | QLT-012 | draft の PR に push する（CI のジョブはスキップでなく失敗し、PR はマージできない） | GitHub Actions run 40457096723（PR #2・head 005cbba・2026-10-27T05:45Z） | 第 1-a 節 | pass |
 <!-- proofs:list:end -->
 
 ---
