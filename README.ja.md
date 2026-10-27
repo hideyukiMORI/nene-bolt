@@ -13,10 +13,12 @@
 
 [English](README.md) · **日本語**
 
+![Windows Terminal で、PATIENT.LOG が結晶の洞窟の消える足場を登っているところ](docs/images/crystal-cavern.png)
+
 兄弟に [NeNe Gambit](https://github.com/hideyukiMORI/nene-gambit)（チェス）、[NeNe Reversi](https://github.com/hideyukiMORI/nene-reversi)、
 [NeNe Igo](https://github.com/hideyukiMORI/nene-igo)（囲碁）、[NeNe Poker](https://github.com/hideyukiMORI/nene-poker)、[NeNe Swarm](https://github.com/hideyukiMORI/nene-swarm)（固定画面のシューティング）があります。
 
-🧪 **ベータです。** [v0.1.0](https://github.com/hideyukiMORI/nene-bolt/releases/tag/v0.1.0) をベータとして公開しました。Windows Terminal での目視の確認はまだで、画面写真は後から載せます。
+🧪 **ベータです。** [v0.1.0](https://github.com/hideyukiMORI/nene-bolt/releases/tag/v0.1.0) をベータとして公開しました。画面写真は Windows Terminal（100×26・`NEON` テーマ）で撮ったものです。
 
 ---
 
@@ -80,6 +82,8 @@ nene-bolt
 自動で遊ぶ NORMAL の 1 ゲームは平均で**約 4 分半**です。たいていは要塞まで行き、ときどきボスを倒します。
 
 ### 画面で起きること
+
+![空中の橋: 底の無い穴の上の動く足場と、浮かぶ得点](docs/images/sky-bridges.png)
 
 - **4 つの面**: 草原。青と水色の**結晶の洞窟**（滑る床・梯子・消える足場で登る縦穴）。底の無い穴の上に動く足場が渡る**空中の橋**。
   ベルトコンベアと棘の**要塞**。要塞の奥の扉は入ると閉まり、ボスが待っています

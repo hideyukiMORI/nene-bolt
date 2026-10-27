@@ -13,10 +13,12 @@ Four runners take turns, and each one grumbles, jokes and gloats in its own voic
 
 **English** · [日本語](README.ja.md)
 
+![PATIENT.LOG climbing the crystal cavern's vanishing blocks in Windows Terminal](docs/images/crystal-cavern.png)
+
 It is a sibling of [NeNe Gambit](https://github.com/hideyukiMORI/nene-gambit) (chess), [NeNe Reversi](https://github.com/hideyukiMORI/nene-reversi),
 [NeNe Igo](https://github.com/hideyukiMORI/nene-igo) (Go), [NeNe Poker](https://github.com/hideyukiMORI/nene-poker) and [NeNe Swarm](https://github.com/hideyukiMORI/nene-swarm) (a fixed shooter).
 
-🧪 **Beta.** [v0.1.0](https://github.com/hideyukiMORI/nene-bolt/releases/tag/v0.1.0) is out as a beta: it has not yet been checked by eye in Windows Terminal, and screenshots will follow.
+🧪 **Beta.** [v0.1.0](https://github.com/hideyukiMORI/nene-bolt/releases/tag/v0.1.0) is out as a beta. The screenshots are from Windows Terminal (100×26, the `NEON` theme).
 
 ---
 
@@ -78,6 +80,8 @@ The terminal needs at least **80×24**. At **100×26 or larger** the view gets w
 An auto-played NORMAL game lasts **about four and a half minutes** on average, reaches the fortress most of the time and beats the boss now and then.
 
 ### What happens on screen
+
+![The sky bridges: moving platforms over bottomless pits, a floating score](docs/images/sky-bridges.png)
 
 - **Four stages**: a grassland; a **crystal cavern** in blue and cyan with slippery ice, ladders and a shaft climbed on vanishing blocks;
   **sky bridges** of moving platforms over bottomless pits; and a **fortress** of conveyor belts and spikes, with a door that shuts behind you and a boss
