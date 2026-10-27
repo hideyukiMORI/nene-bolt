@@ -250,7 +250,8 @@ CNF-006 が「本文に定義があるのにここに行が無い」「本文と
 | `conformance` | NeNe Bolt 固有・API 単位の禁止・アーキテクチャ・文書整合 | `python3 eng/conformance.py` |
 | `conformance-test` | 規約検査の正例・反例 | `python3 -m unittest discover -s eng/tests` |
 | `commits` | コミットの形 | `eng/validate-commit-message.py --range $(BASE)..HEAD` |
-| `test` | 振る舞い | `eng/swift-strict.sh swift test -c release`（Core のテスト。不変条件を 4 面それぞれから 600 ゲームで見る・ADR 0006） |
+| `test` | 振る舞い | `eng/swift-strict.sh swift test -c release`（Core・Render・Terminal のテスト。不変条件を 4 面それぞれから 600 ゲームで見る・ADR 0006 / 0007） |
+| `smoke` | 端末の復元・キー（押す・離すの列を含む）・場面 | `python3 eng/smoke-terminal.py .build/release/nene-bolt`（疑似端末・ADR 0007） |
 | カバレッジ | 中核の検証密度 | **まだ無い**（QLT-009） |
 | 依存 | 再現性 | 外部依存 0。CNF-009 が許可リスト外を拒否 |
 
