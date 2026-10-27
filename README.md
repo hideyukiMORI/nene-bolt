@@ -12,7 +12,9 @@ It is a sibling of [NeNe Gambit](https://github.com/hideyukiMORI/nene-gambit) (c
 with the game's own step function. A NORMAL game lasts about four and a half minutes and now and then ends with the boss down. The screen scrolls with the runner, and pressing an arrow key,
 `Z` or `X` hands you the controls (30 seconds without a key and the AI takes over again). In Windows Terminal the game asks for key press and release
 events, so holding a key keeps you running and letting go stops you; other terminals fall back to key repeat. Each runner talks back
-in the COMMS line, fifty lines apiece. The dedicated colours and effects are still to come.
+in the COMMS line, fifty lines apiece. Each stage has its own palette (the crystal cavern is blue and cyan) over a two-layer scrolling
+backdrop, scores pop where enemies fall, a WARNING banner heralds the boss, and its flash lights up the screen. A terminal of 100 × 26
+or larger gets a wider view and two lines of COMMS.
 
 ## Development
 

@@ -3,6 +3,7 @@ import NeNeBoltCore
 /// 面の窓の中に出す文字（TITLE・GAME OVER・ENDING・面の帯）。文字は地の上に書き、塗ったセルには書かない。
 struct FieldCards {
     let theme: Theme
+    let brush: FieldBrush
 
     /// TITLE: 題・ひとこと・ハイスコアの上位 5 件・次のゲーム・割り込みの案内。
     func title(_ state: ScreenState, into grid: inout Grid) {
@@ -40,8 +41,15 @@ struct FieldCards {
         }
     }
 
-    /// 遊んでいる間の帯（面の始まり・ゴール・ボスを倒した・急かす）。
-    func overlay(_ game: Game, into grid: inout Grid) {
+    /// 遊んでいる間の帯（面の始まり・ゴール・ボスを倒した・急かす・ボスの前の WARNING）と、倒した場所に浮かぶ得点（FR-02h）。
+    func overlay(_ game: Game, effects: Effects, camera: Camera, into grid: inout Grid) {
+        popups(effects, camera: camera, into: &grid)
+        if effects.showsWarning {
+            if effects.clock % 20 < 14 {
+                big(Wording.warning, top: 4, color: theme.danger, into: &grid)
+            }
+            return
+        }
         switch game.phase {
         case .intro:
             big(Wording.stageBanner(game.stage), top: 4, color: theme.spark, into: &grid)
@@ -59,12 +67,32 @@ struct FieldCards {
 
     /// 大きな文字を窓の真ん中に塗る（点は空白のセルの背景色。1 点＝2 桁）。
     private func big(_ text: String, top: Int, color: Rgb, into grid: inout Grid) {
-        let left = (ScreenLayout.fieldWidth - BigFont.span(text) * 2) / 2
+        let left = (brush.layout.fieldWidth - BigFont.span(text) * 2) / 2
         for (row, cells) in BigFont.pixels(text).enumerated() {
             for (offset, lit) in cells.enumerated() where lit {
-                FieldBrush.paint(
+                brush.paint(
                     FieldArea(column: left + offset * 2, row: top + row, width: 2, height: 1), color: color, into: &grid
                 )
+            }
+        }
+    }
+
+    /// 倒した場所に `+100` などを 30 刻み浮かべる（10 刻みに 1 行上がる）。塗ったセルの上には書かない（FR-07）。
+    private func popups(_ effects: Effects, camera: Camera, into grid: inout Grid) {
+        for popup in effects.popups {
+            let rise = (effects.clock - popup.born) / 10
+            let row = camera.row(popup.point.y) - rise
+            let start = camera.column(popup.point.x)
+            for (offset, character) in ("+" + popup.text).enumerated() {
+                let column = start + offset
+                guard (0..<brush.layout.fieldWidth).contains(column), (0..<brush.layout.fieldHeight).contains(row),
+                    brush.cell(grid, column: column, row: row).background == theme.ground
+                else {
+                    continue
+                }
+                brush.write(
+                    String(character), at: (column, row),
+                    colors: CellColors(foreground: theme.spark, background: theme.ground), into: &grid)
             }
         }
     }
@@ -81,9 +109,9 @@ struct FieldCards {
     }
 
     private func center(_ text: String, row: Int, color: Rgb, into grid: inout Grid) {
-        let clipped = String(text.prefix(ScreenLayout.fieldWidth))
-        FieldBrush.write(
-            clipped, at: ((ScreenLayout.fieldWidth - clipped.count) / 2, row),
+        let clipped = String(text.prefix(brush.layout.fieldWidth))
+        brush.write(
+            clipped, at: ((brush.layout.fieldWidth - clipped.count) / 2, row),
             colors: CellColors(foreground: color, background: theme.ground), into: &grid)
     }
 }

@@ -12,15 +12,20 @@ enum ScreenChrome {
         ]
     }
 
-    /// COMMS: ランナーの顔とセリフ（直近の 1 行）。
-    static func comms(_ state: ScreenState, glyphs: FrameGlyphs) -> [Segment] {
+    /// COMMS: ランナーの顔とセリフ（新しい方が下・`rows` 行まで）。古い方は控えめな色。
+    static func comms(_ state: ScreenState, glyphs: FrameGlyphs, rows: Int) -> [[Segment]] {
         let theme = state.display.theme
-        guard let remark = state.remark else {
-            return [Segment(" " + glyphs.marker, theme.dim)]
+        let shown = Array(state.remarks.suffix(rows))
+        guard !shown.isEmpty else {
+            return [[Segment(" " + glyphs.marker, theme.dim)]]
         }
-        return [
-            Segment(" " + glyphs.marker + remark.persona.face + " ", theme.accent), Segment(remark.text, theme.text),
-        ]
+        return shown.enumerated().map { index, remark in
+            let lead = " " + glyphs.marker + remark.persona.face + " "
+            guard index == shown.count - 1 else {
+                return [Segment(lead + remark.text, theme.dim)]
+            }
+            return [Segment(lead, theme.accent), Segment(remark.text, theme.text)]
+        }
     }
 
     /// `[q] QUIT  [t] THEME NEON  [d] NORMAL  ARROWS MOVE  Z JUMP  X FIRE`

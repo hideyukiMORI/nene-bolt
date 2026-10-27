@@ -35,7 +35,7 @@ struct ScreenRendererTests {
             highScores: HighScoreTable(entries: [HighScore(score: 4_321, pilot: "PLAYER", stage: 2, difficulty: .easy)]
             ),
             pilot: pilot, keys: keys, storage: .memoryOnly,
-            remark: Remark(persona: .glitch, cue: .hit, text: "Ow. Was that me? That was me."))
+            talk: ([Remark(persona: .glitch, cue: .hit, text: "Ow. Was that me? That was me.")], Effects()))
     }
 
     static func render(_ session: Session, display: DisplayOptions = boxed, size: ScreenSize = size) -> Grid {
@@ -84,11 +84,11 @@ struct ScreenRendererTests {
     @Test func aStageOpensWithABigBanner() {
         let grid = Self.render(Self.session(ticks: 40))
         let text = "STAGE 1"
-        let left = ScreenLayout.fieldColumn + (ScreenLayout.fieldWidth - BigFont.span(text) * 2) / 2
+        let left = ScreenLayout.compact.fieldColumn + (ScreenLayout.compact.fieldWidth - BigFont.span(text) * 2) / 2
         for (row, cells) in BigFont.pixels(text).enumerated() {
             for (offset, lit) in cells.enumerated() {
                 for half in 0..<2 {
-                    let cell = grid[left + offset * 2 + half, ScreenLayout.fieldRow + 4 + row]
+                    let cell = grid[left + offset * 2 + half, ScreenLayout.compact.fieldRow + 4 + row]
                     #expect(!lit || cell.background == Theme.standard.spark)
                     #expect(!lit || cell.character == " ")
                 }
@@ -106,8 +106,10 @@ struct ScreenRendererTests {
         }
         let grid = Self.render(session)
         var painted = 0
-        for row in ScreenLayout.fieldRow..<(ScreenLayout.fieldRow + ScreenLayout.fieldHeight) {
-            for column in ScreenLayout.fieldColumn..<(ScreenLayout.fieldColumn + ScreenLayout.fieldWidth) {
+        for row in ScreenLayout.compact.fieldRow..<(ScreenLayout.compact.fieldRow + ScreenLayout.compact.fieldHeight) {
+            for column in ScreenLayout.compact
+                .fieldColumn..<(ScreenLayout.compact.fieldColumn + ScreenLayout.compact.fieldWidth)
+            {
                 let cell = grid[column, row]
                 if cell.background != Theme.standard.ground {
                     painted += 1
@@ -125,28 +127,30 @@ struct ScreenRendererTests {
         guard case .play(let game) = session.scene, case .playing = game.phase, game.runner.invulnerable == 0 else {
             return
         }
-        let camera = Camera.following(game)
+        let camera = Camera.following(game, layout: .compact)
         let column = camera.column(game.runner.box.centerX)
         let row = camera.row(game.runner.box.bottom - 1)
-        #expect((1..<(ScreenLayout.fieldWidth - 1)).contains(column))
-        #expect((0..<ScreenLayout.fieldHeight).contains(row))
+        #expect((1..<(ScreenLayout.compact.fieldWidth - 1)).contains(column))
+        #expect((0..<ScreenLayout.compact.fieldHeight).contains(row))
         let grid = Self.render(session)
-        let halves = [column - 1, column].map { grid[ScreenLayout.fieldColumn + $0, ScreenLayout.fieldRow + row] }
+        let halves = [column - 1, column].map {
+            grid[ScreenLayout.compact.fieldColumn + $0, ScreenLayout.compact.fieldRow + row]
+        }
         #expect(halves.allSatisfy { $0.background != Theme.standard.ground })
     }
 
     /// カメラは面の端で止まり、面の外を映さない。どこに自機がいても、窓は面の中にある。
-    @Test(arguments: 1...StageCatalog.count)
-    func theCameraStaysInsideTheMap(_ number: Int) {
+    @Test(arguments: 1...StageCatalog.count, [ScreenLayout.compact, .large])
+    func theCameraStaysInsideTheMap(_ number: Int, _ layout: ScreenLayout) {
         let map = StageCatalog.map(of: Stage(number: number))
         for x in [-100, 0, map.width / 2, map.width - 10, map.width + 100] {
             for y in [-100, 0, map.height / 2, map.height - 10, map.height + 100] {
                 let box = Box(origin: Point(x: x, y: y), width: Runner.width, height: Runner.height)
-                let camera = Camera.framing(box, mapWidth: map.width, mapHeight: map.height)
+                let camera = Camera.framing(box, map: (map.width, map.height), layout: layout)
                 #expect(camera.left >= 0)
                 #expect(camera.top >= 0)
-                #expect(camera.left + Field.units(ScreenLayout.viewColumns) <= map.width)
-                #expect(camera.top + Field.units(ScreenLayout.viewRows) <= map.height)
+                #expect(camera.left + Field.units(layout.viewColumns) <= map.width)
+                #expect(camera.top + Field.units(layout.viewRows) <= map.height)
                 #expect(camera.left % Camera.unitsPerColumn == 0)
                 #expect(camera.top % Field.cellUnits == 0)
             }
@@ -158,9 +162,10 @@ struct ScreenRendererTests {
         let remark = Remark(persona: .hoard, cue: .hit, text: "Ow! Mind the pockets, they're full.")
         let state = ScreenState(
             session: Self.session(ticks: 200), display: Self.boxed, difficulty: .normal, seed: 9, highScores: .empty,
-            pilot: .autopilot(name: "HOARD.ZIP", face: "($_$)"), keys: .unknown, storage: .file, remark: remark)
+            pilot: .autopilot(name: "HOARD.ZIP", face: "($_$)"), keys: .unknown, storage: .file,
+            talk: ([remark], Effects()))
         let grid = ScreenRenderer.render(state, size: Self.size)
-        let row = String((0..<80).map { grid[$0, ScreenLayout.commsRow].character })
+        let row = String((0..<80).map { grid[$0, ScreenLayout.compact.commsRow].character })
         #expect(row.contains("($_$) Ow! Mind the pockets, they're full."))
     }
 

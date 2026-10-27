@@ -15,8 +15,8 @@
 | Phase 3-3 Windows Terminal の実機で確かめる（画面写真・押す・離す） | 🔲 施主の手番を含む |
 | Phase 3-4 本物のランナー 4 名・1 ゲームの長さ | ✅ 2026-10-27（Issue #7・ADR 0008・NORMAL 平均 4 分 24 秒） |
 | Phase 3-4b セリフ（1 人 50 本）と COMMS | ✅ 2026-10-27（Issue #9・ADR 0009） |
-| Phase 3-5 専用の色と演出・大きな端末の配置 | 🔲 次の Issue |
-| Phase 4 公開 | 🔲 別 Issue |
+| Phase 3-5 面ごとの色・背景・演出・大きな端末の配置 | ✅ 2026-10-27（Issue #11・ADR 0010） |
+| Phase 4 公開（install.sh / install.ps1・Release） | 🔲 Release の公開は施主の確認を取る |
 
 ## 動くもの
 
@@ -28,11 +28,9 @@
 
 - `main` への直接 push・force push が拒まれることは試していない（ruleset の読み戻しと PR の `BLOCKED` で代えた・gate-proofs 第 4 節）
 - Windows Terminal の実機での確認（win32-input-mode が WSL の中まで届くか・ちらつき・見え方）
-- 専用の色と演出（面ごとの地形の色・結晶の洞窟の青と水色・爆発・ボスの閃光・警告の帯・背景）・大きな端末の配置
 - テストのランナーはボスまで届かない。ボス戦は手で作った場面でだけ見ている（ADR 0006）
 
 ## 次の 1 手
 
-Phase 3-5 の Issue を立てる。面ごとの地形の色（FR-12・結晶の洞窟は青と水色）と 12 テーマの専用の色、FR-02h の演出（多層の背景・爆発・得点の表示・
-ボス戦の前の警告の帯・溜め撃ちの光り・ボスの閃光）、大きな端末の配置（ハイスコアの表と COMMS 2 行）。
-施主が戻ったら Windows Terminal で `KEYS PRESS/RELEASE` が出るかを確かめてもらう。
+Phase 4（公開の準備）の Issue を立てる。Swarm の公開スクリプト・`install.sh`・`install.ps1`・`--version`・公開の証明（P51〜P54）を移す。
+Release の公開は外に出る操作なので、施主の確認を取ってから（Q8）。施主が戻ったら Windows Terminal で遊んでもらい、`KEYS PRESS/RELEASE` と見え方を確かめる。

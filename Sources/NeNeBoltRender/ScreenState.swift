@@ -19,13 +19,15 @@ public struct ScreenState: Sendable {
     public let keys: KeyReading
     /// ハイスコアがファイルに残るか。
     public let storage: ScoreStorage
-    /// ランナーの直近のセリフ（無ければ nil）。
-    public let remark: Remark?
+    /// ランナーの直近のセリフ（古い順・最大 2 つ）。
+    public let remarks: [Remark]
+    /// 画面の演出。
+    public let effects: Effects
 
     /// 組を作る。
     public init(
         session: Session, display: DisplayOptions, difficulty: Difficulty, seed: UInt64, highScores: HighScoreTable,
-        pilot: PilotLabel, keys: KeyReading, storage: ScoreStorage, remark: Remark? = nil
+        pilot: PilotLabel, keys: KeyReading, storage: ScoreStorage, talk: (remarks: [Remark], effects: Effects)
     ) {
         self.session = session
         self.display = display
@@ -35,7 +37,8 @@ public struct ScreenState: Sendable {
         self.pilot = pilot
         self.keys = keys
         self.storage = storage
-        self.remark = remark
+        remarks = talk.remarks
+        effects = talk.effects
     }
 
     /// 画面に出すゲームの番号（TITLE では次に始まるゲーム）。
