@@ -7,6 +7,7 @@ a grassland, a crystal cavern of vanishing blocks, sky bridges of moving platfor
 Title, play, game over (or the ending), and around again. **Press any game key and you are playing**; leave it for 30 seconds and the AI takes over.
 Four runners take turns, and each one grumbles, jokes and gloats in its own voice the whole time.
 
+[![release](https://img.shields.io/github/v/release/hideyukiMORI/nene-bolt)](https://github.com/hideyukiMORI/nene-bolt/releases/latest)
 ![platform](https://img.shields.io/badge/platform-Linux%20x86__64%20%2F%20WSL2-555)
 ![license](https://img.shields.io/badge/license-MIT-555)
 
@@ -15,13 +16,11 @@ Four runners take turns, and each one grumbles, jokes and gloats in its own voic
 It is a sibling of [NeNe Gambit](https://github.com/hideyukiMORI/nene-gambit) (chess), [NeNe Reversi](https://github.com/hideyukiMORI/nene-reversi),
 [NeNe Igo](https://github.com/hideyukiMORI/nene-igo) (Go), [NeNe Poker](https://github.com/hideyukiMORI/nene-poker) and [NeNe Swarm](https://github.com/hideyukiMORI/nene-swarm) (a fixed shooter).
 
-🚧 **Not released yet.** Everything below works from a source build. It has not yet been checked by eye in Windows Terminal, and screenshots will follow.
+🧪 **Beta.** [v0.1.0](https://github.com/hideyukiMORI/nene-bolt/releases/tag/v0.1.0) is out as a beta: it has not yet been checked by eye in Windows Terminal, and screenshots will follow.
 
 ---
 
 ## Install
-
-Once a release is out:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/hideyukiMORI/nene-bolt/main/install.sh | bash
@@ -43,7 +42,7 @@ irm https://raw.githubusercontent.com/hideyukiMORI/nene-bolt/main/install.ps1 | 
 It runs the same installer inside your default WSL distribution, then puts a small `nene-bolt.cmd` in `%LOCALAPPDATA%\nene-bolt\bin` and adds that folder to your user PATH.
 Set `NENE_BOLT_DISTRO` to use another distribution.
 
-Until then, from a clone: `swift build -c release && .build/release/nene-bolt` (Swift 6.4.1).
+From a clone instead: `swift build -c release && .build/release/nene-bolt` (Swift 6.4.1).
 
 ## How to watch, and how to play
 
