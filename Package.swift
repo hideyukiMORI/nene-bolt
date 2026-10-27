@@ -39,6 +39,11 @@ let package = Package(
             swiftSettings: [.treatAllWarnings(as: .error), .enableUpcomingFeature("ExistentialAny")]
         ),
         .testTarget(
+            name: "NeNeBoltEngineTests",
+            dependencies: ["NeNeBoltCore", "NeNeBoltEngine"],
+            swiftSettings: [.treatAllWarnings(as: .error), .enableUpcomingFeature("ExistentialAny")]
+        ),
+        .testTarget(
             name: "NeNeBoltRenderTests",
             dependencies: ["NeNeBoltCore", "NeNeBoltEngine", "NeNeBoltRender"],
             swiftSettings: [.treatAllWarnings(as: .error), .enableUpcomingFeature("ExistentialAny")]

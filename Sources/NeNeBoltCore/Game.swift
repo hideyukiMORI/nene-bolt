@@ -6,7 +6,7 @@ public struct Game: Sendable, Hashable {
     /// 刻みの数の上限（30 刻み／秒で 20 分）。届いたら `.timeLimit` で終わる。
     public static let tickLimit = 36_000
     /// 始まりの残機（いま走っている 1 機を除く）。
-    public static let startingReserve = 2
+    public static let startingReserve = 3
     /// 1 回の挑戦の制限時間（30 刻み／秒で 180 秒）。
     public static let stageTime = 5_400
     /// 1UP になるコインの数。

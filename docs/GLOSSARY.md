@@ -35,6 +35,8 @@
 | 難易度（difficulty） | EASY・NORMAL・HARD。敵の側（数・速さ・弾・ボスの体力）だけを変える（FR-14） | `NeNeBoltCore` |
 | 出来事（event） | 1 刻みで起きたこと（倒した・踏んだ・拾った・被弾した・落ちた・面を終えた・ボスを倒した…）。セリフと演出の入力 | `NeNeBoltCore` |
 | ランナー（runner AI）・性格（persona） | AI で走る 4 名のキャラクター。走り方・撃ち方・踏み方・迷い・セリフの組（FR-04・FR-06） | `NeNeBoltEngine` |
+| 先読み（rollout） | ランナーが動きを Core の 1 刻み関数でそのまま進めてみること。動き＋続きの 2 段（ADR 0008） | `NeNeBoltEngine`（`Rollout`） |
+| 道のりの地図（route） | 立てる所を点にし、歩く・梯子・跳ぶ・落ちるでつないで数えた、行き先までの重みの和。ランナーの「近づく向き」の目安（ADR 0008） | `NeNeBoltEngine`（`Graph`・`Route`） |
 | ハイスコア（high scores） | 上位 5 件。読み書きは合成ルートだけ（FR-02g） | 合成ルート・`NeNeBoltCore`（並べ方） |
 | シード（seed） | 自前の PRNG の初期値。同じシード・キー入力なしなら同じゲームの列と同じセリフ | 合成ルートが読み、Core と Engine に渡す |
 | セル格子 | 端末の 1 画面分の文字セルの 2 次元配列。Render が作り、Terminal が差分で書く | `NeNeBoltRender` |
