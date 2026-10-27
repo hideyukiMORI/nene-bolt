@@ -75,7 +75,7 @@ CI で必要なゲートは、すべてローカルで実行できる。検査�
 
 振る舞いを変えたら、いちばん狭い安定した境界にテストを足す。不具合の修正は、可能なら**先に落ちる回帰テスト**を書いてから直す。
 
-- 機械強制: **planned**（レビュー事項。テスト target は Phase 3 で入る）
+- 機械強制: **planned**（レビュー事項。テスト target は Core から入り `make test` で回る（ADR 0006）が、振る舞いの変更にテストを足したかは機械が見ない）
 
 ### QLT-009 — カバレッジは下げられない
 
@@ -250,7 +250,7 @@ CNF-006 が「本文に定義があるのにここに行が無い」「本文と
 | `conformance` | NeNe Bolt 固有・API 単位の禁止・アーキテクチャ・文書整合 | `python3 eng/conformance.py` |
 | `conformance-test` | 規約検査の正例・反例 | `python3 -m unittest discover -s eng/tests` |
 | `commits` | コミットの形 | `eng/validate-commit-message.py --range $(BASE)..HEAD` |
-| 単体テスト | 振る舞い | **まだ無い**（テスト target が無い木の `swift test` は exit 1・X-c。Phase 3 で結線） |
+| `test` | 振る舞い | `eng/swift-strict.sh swift test -c release`（Core のテスト。不変条件を 4 面それぞれから 600 ゲームで見る・ADR 0006） |
 | カバレッジ | 中核の検証密度 | **まだ無い**（QLT-009） |
 | 依存 | 再現性 | 外部依存 0。CNF-009 が許可リスト外を拒否 |
 

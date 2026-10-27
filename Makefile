@@ -4,9 +4,9 @@
 BASE ?= origin/main
 SWIFTLINT := .tools/swiftlint
 
-.PHONY: check bootstrap tools build format lint conformance conformance-test commits
+.PHONY: check bootstrap tools build test format lint conformance conformance-test commits
 
-check: tools build format lint conformance conformance-test commits
+check: tools build format lint conformance conformance-test test commits
 	@echo "make check: 緑"
 
 bootstrap: tools
@@ -17,6 +17,10 @@ tools:
 
 build:
 	eng/swift-strict.sh swift build
+
+# 多数のゲームを最後まで回す不変条件のテストは重いので、release 構成で回す（ADR 0006。release でも @testable import は効く・ADR 0001 の X-e）。
+test:
+	eng/swift-strict.sh swift test -c release
 
 format:
 	eng/swift-sources.sh | xargs -0 swift-format lint --strict --configuration .swift-format
