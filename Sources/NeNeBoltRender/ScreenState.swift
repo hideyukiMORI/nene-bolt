@@ -1,4 +1,5 @@
 import NeNeBoltCore
+import NeNeBoltEngine
 
 /// 1 画面を描くのに要るすべての値（ARC-011: Render はこれを描くだけ）。持ち主は合成ルート。
 public struct ScreenState: Sendable {
@@ -18,11 +19,13 @@ public struct ScreenState: Sendable {
     public let keys: KeyReading
     /// ハイスコアがファイルに残るか。
     public let storage: ScoreStorage
+    /// ランナーの直近のセリフ（無ければ nil）。
+    public let remark: Remark?
 
     /// 組を作る。
     public init(
         session: Session, display: DisplayOptions, difficulty: Difficulty, seed: UInt64, highScores: HighScoreTable,
-        pilot: PilotLabel, keys: KeyReading, storage: ScoreStorage
+        pilot: PilotLabel, keys: KeyReading, storage: ScoreStorage, remark: Remark? = nil
     ) {
         self.session = session
         self.display = display
@@ -32,6 +35,7 @@ public struct ScreenState: Sendable {
         self.pilot = pilot
         self.keys = keys
         self.storage = storage
+        self.remark = remark
     }
 
     /// 画面に出すゲームの番号（TITLE では次に始まるゲーム）。

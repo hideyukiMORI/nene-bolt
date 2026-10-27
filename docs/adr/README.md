@@ -24,3 +24,4 @@ ADR は「なぜそう決めたか」「何を却下したか」を書く。
 | [0006](0006-invariant-tests-and-measured-runs.md) | 不変条件のテストでゲートを組み、4 面それぞれから release 構成で 600 ゲームを回す | 受理 |
 | [0007](0007-terminal-keys-camera-and-first-screen.md) | 端末と描画の土台を Swarm から移し、面の窓をカメラで映し、押す・離すのキー入力で人が割り込めるようにする | 受理 |
 | [0008](0008-runners-cast-and-game-length.md) | ランナーは道のりの地図と Core の 1 刻み関数の 2 段の先読みで動き、キャスト 4 名の性格で長さと遊び方を散らす | 受理 |
+| [0009](0009-runner-lines-and-comms.md) | キャスト 4 名に 1 人 50 本のセリフを持たせ、80 × 24 では面の窓を 17 段にして COMMS の 1 行を置く | 受理 |

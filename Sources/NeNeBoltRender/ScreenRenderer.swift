@@ -37,6 +37,8 @@ public enum ScreenRenderer {
         for (offset, line) in HudStrip(state: state, glyphs: glyphs).lines().enumerated() {
             grid.write(line, column: 0, row: ScreenLayout.hudRow + offset, background: theme.ground)
         }
+        grid.write(
+            ScreenChrome.comms(state, glyphs: glyphs), column: 0, row: ScreenLayout.commsRow, background: theme.ground)
         band(row: ScreenLayout.footerRow, theme: theme, into: &grid)
         grid.write(ScreenChrome.footer(state), column: 0, row: ScreenLayout.footerRow, background: theme.panel)
     }

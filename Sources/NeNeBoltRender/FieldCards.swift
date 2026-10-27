@@ -8,18 +8,18 @@ struct FieldCards {
     func title(_ state: ScreenState, into grid: inout Grid) {
         big(Wording.bigTitle, top: 1, color: theme.accent, into: &grid)
         center(Wording.tagline, row: 7, color: theme.dim, into: &grid)
-        center(Wording.highScores, row: 9, color: theme.accentAlt, into: &grid)
+        center(Wording.highScores, row: 8, color: theme.accentAlt, into: &grid)
         for rank in 0..<HighScoreTable.capacity {
-            center(FieldCards.line(rank, state.highScores), row: 10 + rank, color: theme.text, into: &grid)
+            center(FieldCards.line(rank, state.highScores), row: 9 + rank, color: theme.text, into: &grid)
         }
         let next =
             Wording.game(state.gameNumber) + "   " + Wording.difficulty(state.difficulty) + "   "
-            + Wording.pilot(state.pilot)
-        center(next, row: 15, color: theme.text, into: &grid)
-        center(Wording.takeOver, row: 16, color: theme.dim, into: &grid)
+            + Wording.nextRunner(state.pilot)
+        center(next, row: 14, color: theme.text, into: &grid)
+        center(Wording.takeOver, row: 15, color: theme.dim, into: &grid)
         switch state.storage {
         case .file: break
-        case .memoryOnly: center(Wording.memoryOnly, row: 17, color: theme.dim, into: &grid)
+        case .memoryOnly: center(Wording.memoryOnly, row: 16, color: theme.dim, into: &grid)
         }
     }
 

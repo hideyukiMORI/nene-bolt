@@ -23,6 +23,8 @@ struct Screensaver {
     private var pilotGenerator: SplitMix64
     private var persona: Persona
     private var pilot: Pilot
+    private var banter = Banter()
+    private var banterGenerator: SplitMix64
     private var controls: Controls
     private var humanPlayedThisGame = false
     private var session: Session
@@ -40,6 +42,7 @@ struct Screensaver {
         difficulty = options.difficulty
         generator = SplitMix64(seed: seed)
         pilotGenerator = SplitMix64(seed: seed ^ 0x424F_4C54_2121)
+        banterGenerator = SplitMix64(seed: seed ^ 0x4241_4E54_4552)
         controls = Controls(handBack: options.handBack)
         session = Session(durations: options.durations)
         switch ScoreStore.load() {
@@ -108,14 +111,21 @@ struct Screensaver {
             }
         }
         let step = session.step(buttons, difficulty: difficulty, using: &generator)
+        var newRecord = false
         for event in step.events {
-            record(event)
+            newRecord = record(event) || newRecord
         }
         session = step.session
+        var lives: Int?
+        if case .play(let game) = session.scene {
+            lives = game.lives
+        }
+        let hearing = Hearing(events: step.events, lives: lives, newRecord: newRecord)
+        banter.listen(hearing, persona: persona, using: &banterGenerator)
     }
 
-    /// 出来事を 1 つ反映する。
-    private mutating func record(_ event: SessionEvent) {
+    /// 出来事を 1 つ反映する。ハイスコアの 1 位になったら true。
+    private mutating func record(_ event: SessionEvent) -> Bool {
         switch event {
         case .gameStarted:
             pilot = Pilot(persona: persona)
@@ -124,16 +134,19 @@ struct Screensaver {
             let name = humanPlayedThisGame ? Self.playerName : persona.name
             let entry = HighScore(
                 score: summary.score, pilot: name, stage: summary.stage.number, difficulty: summary.difficulty)
-            highScores = highScores.inserting(entry).table
+            let insertion = highScores.inserting(entry)
+            highScores = insertion.table
             if case .file = storage, !ScoreStore.save(highScores) {
                 storage = .memoryOnly
             }
+            return summary.score > 0 && insertion.rank == .ranked(1)
         case .titleShown:
             // 次のゲームのランナーは TITLE に入ったときに決め、TITLE に出す
             persona = Persona.roster.randomElement(using: &pilotGenerator) ?? Persona.dash
         case .game:
             break
         }
+        return false
     }
 
     /// いまの状態を描き、前のフレームとの差分だけを 1 回で書く。
@@ -141,10 +154,10 @@ struct Screensaver {
         let moment = now
         let pilot: PilotLabel =
             controls.secondsLeft(at: moment).map { .player(secondsLeft: $0) }
-            ?? .autopilot(name: persona.name)
+            ?? .autopilot(name: persona.name, face: persona.face)
         let state = ScreenState(
             session: session, display: display, difficulty: difficulty, seed: seed, highScores: highScores,
-            pilot: pilot, keys: controls.reading, storage: storage)
+            pilot: pilot, keys: controls.reading, storage: storage, remark: banter.latest)
         let grid = ScreenRenderer.render(state, size: Console.size())
         Console.write(FrameEncoder.encode(grid, previous: previous, colors: display.traits.colors))
         previous = grid
