@@ -9,16 +9,16 @@ struct ScreenRendererTests {
     static let boxed = DisplayOptions(theme: .standard, traits: TerminalTraits(frame: .boxDrawing, colors: .trueColor))
     static let size = ScreenSize(columns: 80, rows: 24)
 
-    /// シード 9 の場面を `ticks` 刻み進めたもの（仮のランナーが遊ぶ）。
+    /// シード 9 の場面を `ticks` 刻み進めたもの（DASH.EXE が走る）。
     static func session(ticks: Int) -> Session {
         var generator = SplitMix64(seed: 9)
-        var autopilotGenerator = SplitMix64(seed: 10)
-        var autopilot = Autopilot()
+        var pilotGenerator = SplitMix64(seed: 10)
+        var pilot = Pilot(persona: .dash)
         var session = Session(durations: SceneDurations(titleTicks: 30, gameOverTicks: 30))
         for _ in 0..<ticks {
             var buttons: Buttons = []
             if case .play(let game) = session.scene {
-                buttons = autopilot.buttons(for: game, using: &autopilotGenerator)
+                buttons = pilot.buttons(for: game, difficulty: .normal, using: &pilotGenerator)
             }
             session = session.step(buttons, difficulty: .normal, using: &generator).session
         }
@@ -74,7 +74,7 @@ struct ScreenRendererTests {
         let text = Self.text(ScreenRenderer.render(state, size: Self.size))
         #expect(text.contains("PILOT PLAYER 27s"))
         #expect(text.contains("KEYS PRESS/RELEASE"))
-        #expect(text.contains("LIVES 03"))
+        #expect(text.contains("LIVES 04"))
         #expect(text.contains("STAGE 1"))
     }
 

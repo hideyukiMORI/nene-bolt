@@ -33,15 +33,6 @@ import Testing
         }
     }
 
-    /// 同じランナー・同じシードの集合で、平均の寿命は EASY ≥ NORMAL ≥ HARD（REQUIREMENTS 第 3 節）。
-    @Test(arguments: TestRunner.allCases)
-    func harderDifficultiesEndGamesSoonerOnAverage(_ runner: TestRunner) {
-        let lifetimes = Difficulty.allCases.map { difficulty in
-            (0..<UInt64(InvariantTests.seedsPerCell)).reduce(0) { sum, seed in
-                sum + Playthrough.run(.fromStart(runner, difficulty), seed: seed).final.tick
-            }
-        }
-        #expect(lifetimes[0] >= lifetimes[1])
-        #expect(lifetimes[1] >= lifetimes[2])
-    }
+    /// 寿命の単調性（EASY ≥ NORMAL ≥ HARD）は、本物のランナー 4 名で Engine のテストが見る（ADR 0008）。
+    /// テストのランナーは、乱数のものは時間切れで終わることが多く、右へ走るものは同じ所で落ちるので、敵の強さの差が寿命に出ない。
 }

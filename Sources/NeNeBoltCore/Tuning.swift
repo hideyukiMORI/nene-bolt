@@ -28,7 +28,7 @@ public struct Tuning: Sendable, Hashable {
         turretInterval = max(30, 100 - tier * 20 - level * 8)
         enemyShotSpeed = 3 + tier + level / 2
         contactDamage = 2 + tier
-        bossHealth = 20 + tier * 8
+        bossHealth = 16 + tier * 8
         bossPause = max(12, 45 - tier * 12)
     }
 }

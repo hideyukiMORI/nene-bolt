@@ -80,6 +80,9 @@ extension Game {
         return next
     }
 
+    /// 飛ぶ敵の横の速さの上限（自機の走る速さより 1 遅い）。
+    static let flyerTopSpeed = Runner.runSpeed - 1
+
     /// 飛ぶ: 自機の方へ寄りながら上下に波打つ（地形を気にしない）。
     private func fly(_ enemy: Enemy, tuning: Tuning) -> Enemy {
         var next = enemy
@@ -87,7 +90,9 @@ extension Game {
         let wave = (enemy.timer / 12) % 2 == 0 ? 1 : -1
         let toward = runner.box.centerY < enemy.box.centerY ? -1 : 1
         let dy = enemy.timer % 3 == 0 ? toward : wave
-        next.position = enemy.position.moved(by: Velocity(dx: next.facing.sign * tuning.enemySpeed, dy: dy))
+        // 横は自機より遅くする（同じ速さだと振り切れず、触れ続けて体力が尽きる・ADR 0008）
+        let speed = min(tuning.enemySpeed, Game.flyerTopSpeed)
+        next.position = enemy.position.moved(by: Velocity(dx: next.facing.sign * speed, dy: dy))
         return next
     }
 

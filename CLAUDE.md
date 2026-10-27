@@ -174,7 +174,7 @@ Waivers: none | WVR-NNNN
 
 現在のタスクは [docs/todo/current.md](docs/todo/current.md)。GitHub Issue が正で、そこは要約。
 
-- 動くもの: `make check`（smoke を含む）・`nene-bolt`（仮のランナーが TITLE → PLAY → GAME OVER / ENDING を 80 × 24 で遊び続け、遊びのキーで人が割り込み 30 秒で AI に戻る・
-  横に流れる面をカメラで映す・Windows Terminal の押す・離すの方式と簡易な方式・ADR 0005〜0007）
-- 動かないもの: Windows Terminal の実機での確認（Phase 3-3）・本物のランナーとキャストとセリフ（Phase 3-4）・専用の色と演出と大きな端末の配置（Phase 3-5）
+- 動くもの: `make check`（smoke を含む・Engine の単調性のテストで約 5 分）・`nene-bolt`（キャスト 4 名のランナーが TITLE → PLAY → GAME OVER / ENDING を 80 × 24 で遊び続け、
+  NORMAL で平均約 4 分 24 秒・遊びのキーで人が割り込み 30 秒で AI に戻る・横に流れる面をカメラで映す・Windows Terminal の押す・離すの方式と簡易な方式・ADR 0005〜0008）
+- 動かないもの: Windows Terminal の実機での確認（Phase 3-3）・セリフ（次の Issue）・専用の色と演出と大きな端末の配置（Phase 3-5）
 - 施主の決定は [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) にそろっている。決定を覆したくなった点や、要件に無い機能を足したくなった点は、自分で決めずに施主に聞く

@@ -6,7 +6,7 @@
 見ること:
 - alternate screen に入り、24 ビットの色で面の窓と HUD（`GAME 001`）を描く
 - `t` で次のテーマ（PHOSPHOR）に、`d` で次の難易度（HARD）に替わる
-- 場面が TITLE から PLAY（HUD の `LIVES 03`）へ進む
+- 場面が TITLE から PLAY（HUD の `LIVES 04`）へ進む
 - 遊びのキーで人の操作に替わり（HUD の `PLAYER`）、キー入力の方式を HUD に出す（文字なら `REPEAT`・win32-input-mode の列なら `PRESS/RELEASE`）
 - win32-input-mode の列で届いた `q` と Ctrl+C でも終わる
 - 罫線の幅の問い合わせに答えない端末（この疑似端末）では ASCII の枠に落ちる
@@ -159,7 +159,7 @@ def main() -> int:
             check("t: 次のテーマ（PHOSPHOR）に替わる", "PHOSPHOR" in plain, failures)
             last = "\n".join(screen(text[: text.rfind(LEAVE)]))
             check("d: 次の難易度（HARD）に替わる", "[d] HARD" in last and "LEVEL HARD" in last, failures)
-            check("TITLE から PLAY へ進む（HUD に LIVES 03 が出る）", "LIVES 03" in plain, failures)
+            check("TITLE から PLAY へ進む（HUD に LIVES 04 が出る）", "LIVES 04" in plain, failures)
             check("幅の問い合わせに答えない端末では ASCII の枠に落ちる", "+------" in plain and "┌" not in plain, failures)
             check("キーを押さなければ AI が遊ぶ（HUD に AUTO）", "PILOT AUTO" in last, failures)
         if label == "keys":

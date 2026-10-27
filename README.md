@@ -8,9 +8,10 @@ Written in Swift for Ubuntu on WSL2 and Windows Terminal. The game, the collisio
 It is a sibling of [NeNe Gambit](https://github.com/hideyukiMORI/nene-gambit) (chess), [NeNe Reversi](https://github.com/hideyukiMORI/nene-reversi),
 [NeNe Igo](https://github.com/hideyukiMORI/nene-igo) (Go), [NeNe Poker](https://github.com/hideyukiMORI/nene-poker) and [NeNe Swarm](https://github.com/hideyukiMORI/nene-swarm) (a fixed shooter).
 
-🚧 **Early but playable.** A stand-in runner plays the four stages in an 80 × 24 terminal, the screen scrolls with it, and pressing an arrow key,
+🚧 **Early but playable.** One of four runners (DASH.EXE, HOARD.ZIP, PATIENT.LOG, GLITCH.DAT) plays the four stages in an 80 × 24 terminal, reading ahead
+with the game's own step function. A NORMAL game lasts about four and a half minutes and now and then ends with the boss down. The screen scrolls with the runner, and pressing an arrow key,
 `Z` or `X` hands you the controls (30 seconds without a key and the AI takes over again). In Windows Terminal the game asks for key press and release
-events, so holding a key keeps you running and letting go stops you; other terminals fall back to key repeat. The real runners, their banter,
+events, so holding a key keeps you running and letting go stops you; other terminals fall back to key repeat. The runners' banter,
 the dedicated colours and effects are still to come.
 
 ## Development

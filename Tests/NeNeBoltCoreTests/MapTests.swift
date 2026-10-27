@@ -8,7 +8,7 @@ import Testing
     func everyStageMapReadsAndHasWhatItNeeds(_ index: Int) {
         let stage = Stage(number: index + 1)
         let map = StageCatalog.map(of: stage)
-        #expect(map.columns == 180)
+        #expect(map.columns >= 180 && map.columns % 90 == 0)
         #expect(map.spawns.filter { $0.kind == .start }.count == 1)
         #expect(map.first(.checkpoint) != nil)
         switch stage.kind {
