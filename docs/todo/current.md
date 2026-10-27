@@ -12,11 +12,11 @@
 | Phase 2 negative proof | ✅ 2026-10-27（Issue #1 で 60 件・Issue #3 で 61 件すべて pass・GitHub 側 2 件・docs/quality/gate-proofs.md） |
 | Phase 3-1 ゲームの進行と当たり判定（Core・画面なし） | ✅ 2026-10-27（Issue #3・ADR 0005 / 0006・不変条件 600 ゲーム） |
 | Phase 3-2 端末に描き、人が遊べるようにする | ✅ 2026-10-27（Issue #5・ADR 0007・smoke） |
-| Phase 3-3 Windows Terminal の実機で確かめる（画面写真・押す・離す） | 🔲 施主の手番を含む |
 | Phase 3-4 本物のランナー 4 名・1 ゲームの長さ | ✅ 2026-10-27（Issue #7・ADR 0008・NORMAL 平均 4 分 24 秒） |
 | Phase 3-4b セリフ（1 人 50 本）と COMMS | ✅ 2026-10-27（Issue #9・ADR 0009） |
 | Phase 3-5 面ごとの色・背景・演出・大きな端末の配置 | ✅ 2026-10-27（Issue #11・ADR 0010） |
 | Phase 4 公開の経路（make release・install.sh・install.ps1・README） | ✅ 2026-10-27（Issue #13・ADR 0011） |
+| Phase 3-3 Windows Terminal の実機 | ✅ 2026-10-27（施主が遊んで `KEYS PRESS/RELEASE` を確認・README に実機の画面写真 2 枚） |
 | Phase 4 Release の公開 | ✅ 2026-10-27 v0.1.0（ベータ・Q14・commit 20ebd32・SHA-256 f1da40a6…f2d6） |
 
 ## 動くもの
@@ -33,5 +33,4 @@
 
 ## 次の 1 手
 
-施主に Windows Terminal で遊んでもらい（`install.sh` の 1 行で入る）、`KEYS PRESS/RELEASE` か `KEYS REPEAT` か・見え方・ちらつきを確かめる（Phase 3-3）。
-実機の画面写真を README の先頭に置く。
+施主の判断待ちで止めているもの（どちらも「直さなくてよい」で保留中）: 人が遊ぶには難しい（落ちた直後も跳べる・跳ぶの先行入力などの手当て）／矢印と撃つが同時に効かないっぽい（原因は未調査）。
