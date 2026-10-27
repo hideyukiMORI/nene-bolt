@@ -85,6 +85,7 @@ enum Wording {
 
     static let stageClear = "CLEAR!"
     static let victory = "VICTORY"
+    static let warning = "WARNING"
     static let hurryUp = "HURRY UP!"
     static let gameOver = "GAME OVER"
     static let allClear = "ALL CLEAR"

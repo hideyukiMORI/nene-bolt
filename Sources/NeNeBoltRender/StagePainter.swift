@@ -3,27 +3,22 @@ import NeNeBoltCore
 /// 面の窓に、地形・据え付け・拾うもの・敵・ボス・弾・自機を塗る（FR-07: どれも空白のセルの背景色だけで描き、文字を書かない）。
 ///
 /// 体の大きさは偶数桁にそろえる（1 セル＝2 桁）。体の縦は足もとの行から上へ数え、跳んでいる途中でも行数が変わらない。
+/// 地形の色は面ごとの `StagePalette`（FR-12）。
 struct StagePainter {
     let theme: Theme
+    let palette: StagePalette
     let camera: Camera
+    let brush: FieldBrush
 
     /// 消える足場が消える前に点滅する刻みの数。
     static let warningTicks = 15
 
-    /// 面の窓を地の色で消す。
-    static func clear(theme: Theme, into grid: inout Grid) {
-        FieldBrush.paint(
-            FieldArea(column: 0, row: 0, width: ScreenLayout.fieldWidth, height: ScreenLayout.fieldHeight),
-            color: theme.ground,
-            into: &grid)
-    }
-
-    /// ゲームを 1 枚描く。
+    /// ゲームを 1 枚描く（背景の上に）。
     func draw(_ game: Game, into grid: inout Grid) {
         terrain(game, into: &grid)
         markers(game, into: &grid)
         for platform in game.platforms {
-            body(platform.box, span: (6, 1), color: theme.fixture, into: &grid)
+            body(platform.box, span: (6, 1), color: palette.fixture, into: &grid)
         }
         for pickup in game.pickups where !pickup.taken {
             body(pickup.box, span: (2, 1), color: color(of: pickup.kind), into: &grid)
@@ -62,31 +57,33 @@ struct StagePainter {
         case .empty:
             return nil
         case .solid:
-            return theme.rock
+            return palette.rock
         case .ice:
-            return Rgb.mix(theme.rock, theme.accent, percent: 50)
+            // 結晶は 3 刻みずつずれて光る
+            return (column + row + game.stageTick / 20) % 7 == 0
+                ? Rgb.mix(palette.ice, theme.text, percent: 40) : palette.ice
         case .ladder:
-            return row % 2 == 0 ? theme.fixture : Rgb.mix(theme.fixture, theme.ground, percent: 55)
+            return row % 2 == 0 ? palette.fixture : Rgb.mix(palette.fixture, theme.ground, percent: 55)
         case .spike:
             return theme.danger
         case .vanishing(let group):
             return vanishing(group: group, at: game.stageTick)
         case .conveyor(let heading):
             let stripe = (column + heading.sign * game.stageTick / 4) % 2 == 0
-            return stripe ? theme.rock : Rgb.mix(theme.rock, theme.text, percent: 20)
+            return stripe ? palette.rock : Rgb.mix(palette.rock, theme.text, percent: 20)
         }
     }
 
     /// 消える足場の色。見えている間は据え付けの色で、消える前に点滅し、消えている間はうっすら跡を残す（覚えて渡るもの）。
     private func vanishing(group: Int, at tick: Int) -> Rgb {
         guard VanishingClock.isVisible(group: group, at: tick) else {
-            return Rgb.mix(theme.ground, theme.fixture, percent: 18)
+            return Rgb.mix(theme.ground, palette.fixture, percent: 18)
         }
         let goesSoon = !VanishingClock.isVisible(group: group, at: tick + StagePainter.warningTicks)
         if goesSoon, tick % 4 < 2 {
-            return Rgb.mix(theme.fixture, theme.ground, percent: 50)
+            return Rgb.mix(palette.fixture, theme.ground, percent: 50)
         }
-        return Rgb.mix(theme.fixture, theme.text, percent: 30)
+        return Rgb.mix(palette.fixture, theme.text, percent: 30)
     }
 
     /// 中間地点・ゴールの旗・ボスの部屋の扉。
@@ -134,16 +131,19 @@ struct StagePainter {
         if runner.invulnerable > 0, runner.invulnerable % 6 < 3 {
             return
         }
-        let color = runner.isCharged ? Rgb.mix(theme.runner, theme.spark, percent: 60) : theme.runner
+        // 溜まったら火花の色と交互に光る
+        let glowing = runner.isCharged && game.tick % 6 < 3
+        let color =
+            glowing ? theme.spark : (runner.charge > 0 ? Rgb.mix(theme.runner, theme.spark, percent: 30) : theme.runner)
         let (column, row) = body(runner.box, span: (2, 2), color: color, into: &grid)
         let eye = runner.facing == .right ? column + 1 : column
-        FieldBrush.paint(
+        brush.paint(
             FieldArea(column: eye, row: row, width: 1, height: 1), color: theme.text, into: &grid)
     }
 
     /// 地形のセル 1 つ（2 桁 × 1 行）。
     private func cell(column: Int, row: Int, color: Rgb, into grid: inout Grid) {
-        FieldBrush.paint(
+        brush.paint(
             FieldArea(
                 column: camera.column(Field.units(column)), row: camera.row(Field.units(row)), width: 2, height: 1),
             color: color, into: &grid)
@@ -155,7 +155,7 @@ struct StagePainter {
         let (columns, rows) = span
         let column = camera.column(box.centerX) - columns / 2
         let row = camera.row(box.bottom - 1) - rows + 1
-        FieldBrush.paint(
+        brush.paint(
             FieldArea(column: column, row: row, width: columns, height: rows), color: color, into: &grid)
         return (column, row)
     }

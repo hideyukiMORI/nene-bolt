@@ -4,29 +4,34 @@ import NeNeBoltCore
 ///
 /// 自機を窓の左から 2/5 の所に置き（前を広く見せる）、面の端では止める。縦は自機を真ん中に置き、面の上下の端で止める。
 /// 横は半セル（8 単位＝端末の 1 桁）、縦は 1 セル（16 単位＝端末の 1 行）に合わせるので、地形のセルが行と桁からずれない。
-/// 状態を持たず、ゲームの状態だけから決まる（決定性のテストが見た目の変更で壊れない・ADR 0004）。
+/// 状態を持たず、ゲームの状態と配置だけから決まる（決定性のテストが見た目の変更で壊れない・ADR 0004）。
 struct Camera: Sendable, Hashable {
     /// 窓の左端と上端（単位）。
     let left: Int
     let top: Int
+    /// 窓の幅と高さ（セル）。
+    let columns: Int
+    let rows: Int
 
     /// 端末の 1 桁の単位数。
     static let unitsPerColumn = Field.cellUnits / 2
 
     /// ゲームの状態から決める。
-    static func following(_ game: Game) -> Camera {
-        framing(game.runner.box, mapWidth: game.map.width, mapHeight: game.map.height)
+    static func following(_ game: Game, layout: ScreenLayout) -> Camera {
+        framing(game.runner.box, map: (game.map.width, game.map.height), layout: layout)
     }
 
     /// 自機の箱と面の大きさ（単位）から決める。
-    static func framing(_ box: Box, mapWidth: Int, mapHeight: Int) -> Camera {
-        let width = Field.units(ScreenLayout.viewColumns)
-        let height = Field.units(ScreenLayout.viewRows)
+    static func framing(_ box: Box, map: (width: Int, height: Int), layout: ScreenLayout) -> Camera {
+        let width = Field.units(layout.viewColumns)
+        let height = Field.units(layout.viewRows)
         let wantedLeft = box.centerX - width * 2 / 5
         let wantedTop = box.centerY - height / 2
-        let left = min(max(wantedLeft, 0), max(mapWidth - width, 0))
-        let top = min(max(wantedTop, 0), max(mapHeight - height, 0))
-        return Camera(left: (left >> 3) << 3, top: Field.units(Field.cell(top)))
+        let left = min(max(wantedLeft, 0), max(map.width - width, 0))
+        let top = min(max(wantedTop, 0), max(map.height - height, 0))
+        return Camera(
+            left: (left >> 3) << 3, top: Field.units(Field.cell(top)), columns: layout.viewColumns,
+            rows: layout.viewRows)
     }
 
     /// 横の位置の、面の窓の中の桁（負の無限大へ丸める）。
@@ -43,8 +48,6 @@ struct Camera: Sendable, Hashable {
     var visibleCells: (columns: ClosedRange<Int>, rows: ClosedRange<Int>) {
         let firstColumn = Field.cell(left)
         let firstRow = Field.cell(top)
-        return (
-            firstColumn...(firstColumn + ScreenLayout.viewColumns), firstRow...(firstRow + ScreenLayout.viewRows - 1)
-        )
+        return (firstColumn...(firstColumn + columns), firstRow...(firstRow + rows - 1))
     }
 }

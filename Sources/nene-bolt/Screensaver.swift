@@ -24,6 +24,7 @@ struct Screensaver {
     private var persona: Persona
     private var pilot: Pilot
     private var banter = Banter()
+    private var effects = Effects()
     private var banterGenerator: SplitMix64
     private var controls: Controls
     private var humanPlayedThisGame = false
@@ -122,6 +123,7 @@ struct Screensaver {
         }
         let hearing = Hearing(events: step.events, lives: lives, newRecord: newRecord)
         banter.listen(hearing, persona: persona, using: &banterGenerator)
+        effects.absorb(step.events)
     }
 
     /// 出来事を 1 つ反映する。ハイスコアの 1 位になったら true。
@@ -157,7 +159,8 @@ struct Screensaver {
             ?? .autopilot(name: persona.name, face: persona.face)
         let state = ScreenState(
             session: session, display: display, difficulty: difficulty, seed: seed, highScores: highScores,
-            pilot: pilot, keys: controls.reading, storage: storage, remark: banter.latest)
+            pilot: pilot, keys: controls.reading, storage: storage,
+            talk: (banter.lines, effects))
         let grid = ScreenRenderer.render(state, size: Console.size())
         Console.write(FrameEncoder.encode(grid, previous: previous, colors: display.traits.colors))
         previous = grid

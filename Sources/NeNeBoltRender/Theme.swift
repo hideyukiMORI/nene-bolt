@@ -4,7 +4,7 @@ import NeNeBoltCore
 ///
 /// 12 色の並びと値は兄弟の 12 テーマ（NeNe Swarm `Sources/NeNeSwarmRender/Theme.swift`・コミット a660f47。元は NeNe Igo）をそのまま写した。
 /// 地・パネル・枠・文字・控えめな文字・強調 2 色は兄弟と同じ意味で使う。自機・敵・弾・地形などの 11 色は、仮に Swarm の 11 色を
-/// 役を替えて当てた（ADR 0007）。面ごとの地形の色と専用の色は Phase 3-5 で決める（FR-12）。
+/// 役を替えて当てた（ADR 0007）。面ごとの地形の色は、この岩と据え付けの色から `StagePalette` が作る（ADR 0010）。
 public struct Theme: Sendable, Hashable {
     /// 画面と起動オプションに使う名前（`--theme NEON`）。
     public let name: String
